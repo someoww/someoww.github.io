@@ -35,7 +35,7 @@
   .bubble{
     position:absolute;left:min(24vw,220px);bottom:min(42vh,320px);width:min(86vw,460px);
     background:var(--bubble-bg);border:1.5px solid var(--panel);border-radius:22px 22px 22px 6px;
-    padding:22px 26px;font-size:1.06rem;line-height:1.6;color:var(--ink);
+    padding:22px 26px;font-size:1.06rem;line-height:1.6;color:var(--ink);text-align:justify;
     opacity:0;transform:translateY(12px) scale(.97);
     transition:opacity .55s ease, transform .55s cubic-bezier(.22,1,.36,1), background .4s ease, border-color .4s ease;
     box-shadow:0 12px 32px var(--shadow);
@@ -115,7 +115,7 @@
   .nav-drawer a:hover,.nav-drawer a:focus-visible{background:var(--clay);color:#fff;}
   .nav-drawer a:active{transform:scale(.96);}
 
-  footer.hint{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;font-size:0.75rem;color:var(--hint-color);letter-spacing:.02em;opacity:0;transition:opacity .6s ease, color .4s ease;}
+  footer.hint{position:absolute;bottom:calc(14px + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;font-size:1rem;color:var(--hint-color);letter-spacing:.02em;opacity:0;transition:opacity .6s ease, color .4s ease;}
   footer.hint.show{opacity:1;}
 
   .theme-toggle:active .thumb{transform:scale(.92);}
@@ -224,12 +224,12 @@
   <a href="mailto:somiomuktadir@gmail.com">Email</a>
 </div>
 
-<footer class="hint" id="hint">Applied Statistics &amp; Data science · IASDS, University of Dhaka</footer>
+<footer class="hint" id="hint">Applied Statistics &amp; Data Science · IASDS, University of Dhaka</footer>
 
 <script>
 (function(){
-  var intro = "Psst \u2014 I'm Muktadir Somio. Second-year Applied Statistics & Data Science student at IASDS, University of Dhaka, and an idea tinkerer at heart \u2014 I play with ideas until they hold or dissolve. Chess sharpens me, poker humbles me, Python is my language of choice even though R runs the curriculum, and I'm slowly hoarding Spanish words on Duolingo. Check my Github page to know my projects; I also share my thoughts and ideas on substack ocassionally.";
-  var outro = "Have a nice day! Meow.";
+  var intro = "Psst \u2014 I'm Muktadir Somio. Second-year Applied Statistics & Data Science student at IASDS, University of Dhaka, and an idea tinkerer at heart \u2014 I play with ideas until they hold or dissolve. Chess sharpens me, poker humbles me, Python is my language of choice even though R runs the curriculum, and I'm slowly hoarding Spanish words on Duolingo. Take a look at my Github page for my projects and substack for I ocassionally share my thoughts, ideas, and other writings there.";
+  var outro = "Have a nice day!";
   var bubble=document.getElementById('bubble'), bubbleText=document.getElementById('bubbleText'),
       line2=document.getElementById('line2'), cursor=document.getElementById('cursor'),
       cat=document.getElementById('cat'), navbar=document.getElementById('navbar'), hint=document.getElementById('hint');
