@@ -5,18 +5,18 @@
 <style>
 /* Layout: quiet nav, three hash views (home, stories, resources), shared detail modal and contact modal over a wave-line canvas. */
 :root{
-  --bg:#faf9f5; --fg:#141413; --muted:#6b6a64; --line:#e3dacc; --accent:#d97757; --accent-fg:#faf9f5; --wave:#b0aea5; --card:#fffefb; --scrim:rgba(20,20,19,.45); --err:#b3402a;
+  --bg:#faf9f5; --fg:#141413; --muted:#6b6a64; --line:#e3dacc; --accent:#d97757; --accent-fg:#141413; --acc-t:#b5502d; --wave:#b0aea5; --card:#fffefb; --scrim:rgba(20,20,19,.45); --err:#b3402a;
   --serif:"Newsreader",Georgia,"Times New Roman",serif; --sans:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141413;--fg:#faf9f5;--muted:#b0aea5;--line:#2e2d2a;--accent:#d97757;--accent-fg:#141413;--wave:#6b6a64;--card:#1b1a18;--scrim:rgba(0,0,0,.6);--err:#f08a70;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#141413;--fg:#faf9f5;--muted:#b0aea5;--line:#2e2d2a;--accent:#d97757;--accent-fg:#141413;--wave:#6b6a64;--card:#1b1a18;--scrim:rgba(0,0,0,.6);--err:#f08a70;color-scheme:dark}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141413;--fg:#faf9f5;--muted:#b0aea5;--line:#2e2d2a;--accent:#d97757;--accent-fg:#141413;--acc-t:#e08a6c;--wave:#6b6a64;--card:#1b1a18;--scrim:rgba(0,0,0,.6);--err:#f08a70;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141413;--fg:#faf9f5;--muted:#b0aea5;--line:#2e2d2a;--accent:#d97757;--accent-fg:#141413;--acc-t:#e08a6c;--wave:#6b6a64;--card:#1b1a18;--scrim:rgba(0,0,0,.6);--err:#f08a70;color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--sans);min-height:100vh;position:relative;overflow-x:hidden;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
 #bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto}
 nav{display:flex;align-items:center;gap:18px;padding-block:28px;position:relative;z-index:20}
-.rw{position:relative}
+.mn{position:relative}
 .logo{font-family:var(--serif);font-size:26px;letter-spacing:-.01em;margin-right:auto;color:var(--fg);text-decoration:none}
 .lnk{color:var(--muted);background:none;border:0;font:400 15px var(--sans);cursor:pointer;padding:6px 0;display:inline-flex;gap:6px;align-items:center;text-decoration:none;transition:color .2s}
 .lnk:hover,.lnk[aria-expanded="true"]{color:var(--fg)}
@@ -32,29 +32,98 @@ nav{display:flex;align-items:center;gap:18px;padding-block:28px;position:relativ
 #tg{width:34px;height:34px;border-radius:50%;border:1px solid var(--fg);background:transparent;cursor:pointer;position:relative;overflow:hidden;padding:0}
 #tg::after{content:"";position:absolute;inset:0;background:var(--fg);clip-path:inset(0 50% 0 0)}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding-block:clamp(72px,14vw,168px) clamp(72px,12vw,140px)}
-h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,7vw,84px);line-height:1.04;letter-spacing:-.025em;margin:0;text-wrap:balance;max-width:14ch}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding-block:clamp(72px,14vw,168px) clamp(48px,8vw,88px)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,7vw,84px);line-height:1.04;letter-spacing:-.025em;margin:0;text-wrap:balance;max-width:22ch}
 h1 em{color:var(--accent);font-style:italic}
 p.lead{font-size:clamp(16px,1.6vw,19px);line-height:1.65;color:var(--muted);max-width:56ch;margin:36px 0 44px;text-wrap:pretty}
 .cta{display:inline-flex;align-items:center;gap:10px;color:var(--fg);background:none;border:0;border-bottom:1px solid var(--line);font:500 16px var(--sans);padding:0 0 4px;cursor:pointer;transition:border-color .25s}
 .cta span{display:inline-block;transition:transform .3s}
 .cta:hover{border-color:var(--accent)}.cta:hover span{transform:translateX(6px)}
-.rise{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.rise{animation:rise .9s cubic-bezier(.2,.7,.2,1) backwards}
 .d1{animation-delay:.1s}.d2{animation-delay:.25s}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
-.w{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .06em .14em;margin:-.04em -.06em -.14em}
-.wi{display:inline-block;animation:wd 1.2s cubic-bezier(.16,.84,.2,1) both;animation-delay:calc(var(--i)*110ms + 200ms)}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:.06em .14em .16em;margin:-.06em -.14em -.16em}
+.wi{display:inline-block;animation:wd 1.2s cubic-bezier(.16,.84,.2,1) backwards;animation-delay:calc(var(--i)*110ms + 200ms)}
 @keyframes wd{from{transform:translateY(110%) rotate(2deg);filter:blur(8px);opacity:0}to{transform:none;filter:blur(0);opacity:1}}
 .lead.rise{animation-duration:1.2s;animation-delay:.95s}.cta.rise{animation-duration:1.2s;animation-delay:1.25s}
-nav{animation:fade 1.2s .1s both}
+nav{animation:fade 1.2s .1s backwards}
 .view:not([hidden]) .eyebrow,.view:not([hidden]) .t,.view:not([hidden]) .sub,.view:not([hidden]) .chips{animation:rise .8s cubic-bezier(.16,.84,.2,1) both}
 .view:not([hidden]) .t{animation-delay:.07s}.view:not([hidden]) .sub{animation-delay:.14s}.view:not([hidden]) .chips{animation-delay:.2s}
-.view:not([hidden]) .card{animation:rise .8s cubic-bezier(.16,.84,.2,1) both}
+.view:not([hidden]) .card{animation:rise .8s cubic-bezier(.16,.84,.2,1) backwards}
 .grid .card:nth-child(1){animation-delay:320ms}.grid .card:nth-child(2){animation-delay:390ms}.grid .card:nth-child(3){animation-delay:460ms}.grid .card:nth-child(4){animation-delay:530ms}.grid .card:nth-child(5){animation-delay:600ms}.grid .card:nth-child(6){animation-delay:670ms}.grid .card:nth-child(7){animation-delay:740ms}.grid .card:nth-child(8){animation-delay:810ms}
+::selection{background:var(--accent);color:var(--accent-fg)}
+.clients{padding-bottom:72px;animation:rise 1.2s 1.6s cubic-bezier(.16,.84,.2,1) backwards}
+.lab{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:20px}
+.cl{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.cl button{flex:0 1 calc(25% - 9px);background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--muted);cursor:pointer;transition:color .25s,border-color .25s,transform .25s;font:inherit}
+.cl button:hover{color:var(--fg);border-color:var(--accent);transform:translateY(-2px)}
+.cl .wm{font-size:20px;line-height:1.1;text-align:center;font-family:var(--serif);letter-spacing:-.01em}
+.cl button:nth-child(2) .wm{font:500 13px var(--sans);letter-spacing:.14em;text-transform:uppercase}
+.cl button:nth-child(3) .wm{font-style:italic;font-size:22px}
+.cl button:nth-child(4) .wm{font:500 19px var(--sans);letter-spacing:-.02em}
+.cl button:nth-child(5) .wm{font-size:22px;letter-spacing:.02em}
+.cl button:nth-child(6) .wm{font:400 14px var(--serif);letter-spacing:.1em;text-transform:uppercase}
+.cl button:nth-child(7) .wm{font:400 19px var(--serif);letter-spacing:.06em;text-transform:lowercase}
+@media (max-width:980px){.cl button{flex-basis:calc(33.333% - 8px)}}
+@media (max-width:640px){.cl button{flex-basis:calc(50% - 6px)}}
+.cl small{font-size:12px;color:var(--muted);transition:color .25s}.cl button:hover small{color:var(--acc-t)}
+.steps{padding-bottom:96px}
+.steps .sh{margin-bottom:28px}
+.track{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:40px}
+.rail{position:absolute;left:5px;right:0;top:5px;height:1px;background:var(--line)}
+.rail i{position:absolute;left:0;top:0;height:1px;background:var(--accent);width:100%;transition:width 1.1s cubic-bezier(.6,0,.2,1)}
+.arm .rail i{width:0}
+.track.stack .rail{display:none}
+.stp{position:relative;padding-top:32px;transition:opacity .7s}
+.stp::before{content:"";position:absolute;left:0;top:0;width:11px;height:11px;border-radius:50%;border:1px solid var(--accent);background:var(--accent);transition:background .5s,border-color .5s}
+.arm .stp:not(.on)::before{background:var(--bg);border-color:var(--line)}
+.arm .stp:not(.on){opacity:.4}
+.arm .stp.on .eyebrow{color:var(--acc-t)}
+.stp h3{font-family:var(--serif);font-weight:400;font-size:28px;margin:8px 0;letter-spacing:-.01em}
+.stp p{color:var(--muted);line-height:1.65;font-size:15px;margin:0;max-width:34ch}
+.viz{margin-top:24px;max-width:340px;border:1px solid var(--line);border-radius:12px;background:var(--card);padding:10px}
+.viz svg{display:block;width:100%;height:auto;overflow:hidden}
+.viz svg *{transform-box:fill-box;transform-origin:center}
+.ax{stroke:var(--line);stroke-width:1}
+.g1{fill:var(--muted);--o:.85;opacity:.85}.bd{fill:var(--accent);opacity:0}
+.tl,.hl,.fl,.ck{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tl{stroke:var(--fg);stroke-width:1.4}.hl{stroke:var(--fg);stroke-width:1.6}.fl{stroke:var(--accent);stroke-width:1.8}
+.bn{fill:var(--accent);opacity:.14;transform-origin:left center!important}
+.hp{fill:var(--card);stroke:var(--fg);stroke-width:1.2}
+.ed{fill:var(--accent)}.rng{fill:none;stroke:var(--accent);stroke-width:1;opacity:0}
+.sc{opacity:0}
+.cb{fill:none;stroke:var(--accent);stroke-width:1.4}.ck{stroke:var(--accent);stroke-width:1.8}
+.lb{font:500 12px var(--sans);fill:var(--fg)}.dt{font:400 10px var(--sans);fill:var(--muted)}
+.play .g1{animation:pop .5s cubic-bezier(.2,.8,.2,1) calc(var(--i)*45ms) both}
+.play .bd{animation:pop .5s cubic-bezier(.2,.8,.2,1) calc(var(--i)*45ms) both,vanish .5s ease-in var(--vd) forwards}
+.play .sc{animation:scan 1.3s cubic-bezier(.5,0,.5,1) 1s both}
+.play .tl{stroke-dasharray:1;animation:draw 1s ease-out 2.1s both}
+.play .hp{animation:pop .4s cubic-bezier(.2,.8,.2,1) calc(var(--i)*110ms) both}
+.play .hl{stroke-dasharray:1;animation:draw 1s ease-out .2s both}
+.play .fl{stroke-dasharray:1;animation:draw 1s ease-out 1.2s both}
+.play .bn{animation:band .8s ease-out 2s both}
+.play .ed{animation:pop .4s cubic-bezier(.2,.8,.2,1) 2.1s both}
+.play .rng{animation:ring 1.2s ease-out 2.3s both}
+.play .rw{animation:rowin .5s ease-out calc(var(--i)*600ms) both}
+.play .cb{animation:boxon .3s calc(var(--i)*600ms + 350ms) both}
+.play .ck{stroke-dasharray:1;animation:draw .4s ease-out calc(var(--i)*600ms + 400ms) both}
+@keyframes pop{from{opacity:0;transform:scale(.2)}to{opacity:var(--o,1);transform:scale(1)}}
+@keyframes vanish{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(0)}}
+@keyframes scan{0%{transform:translateX(-30px);opacity:0}10%,90%{opacity:1}100%{transform:translateX(250px);opacity:0}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes band{from{opacity:0;transform:scaleX(.15)}to{opacity:.14;transform:scaleX(1)}}
+@keyframes ring{from{opacity:.7;transform:scale(.4)}to{opacity:0;transform:scale(2.6)}}
+@keyframes rowin{from{opacity:0;transform:translateX(10px)}to{opacity:1;transform:none}}
+@keyframes boxon{from{stroke:var(--line)}to{stroke:var(--accent)}}
+.foot{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;border-top:1px solid var(--line);padding-block:28px 40px}
+.foot .logo{margin-right:auto;font-size:22px}
+.fn{font-size:12px;color:var(--muted)}
+.card span{display:block}
 /* inner views */
 .view{padding-block:clamp(32px,6vw,72px) 96px}
 .view h2.t{font-family:var(--serif);font-weight:400;font-size:clamp(34px,5vw,56px);letter-spacing:-.02em;line-height:1.08;margin:0 0 14px;text-wrap:balance}
 .view p.sub{color:var(--muted);max-width:60ch;line-height:1.65;margin:0 0 32px}
+.eyebrow a{color:inherit;text-decoration:none}.eyebrow a:hover{color:var(--fg)}
 .eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
 .chip{font:400 13px var(--sans);padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s}
@@ -63,17 +132,17 @@ nav{animation:fade 1.2s .1s both}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px}
 .card{min-width:0;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:14px;cursor:pointer;color:var(--fg);font:inherit;transition:border-color .25s,transform .25s}
 .card:hover{border-color:var(--accent);transform:translateY(-3px)}
-.card h3{font-family:var(--serif);font-weight:400;font-size:23px;line-height:1.2;margin:0;letter-spacing:-.01em;text-wrap:balance}
-.card p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+.card .h3{font-family:var(--serif);font-weight:400;font-size:23px;line-height:1.2;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.card .p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
 .card .m{margin-top:auto;display:flex;align-items:baseline;gap:8px;padding-top:6px;border-top:1px solid var(--line)}
 .card .m b{font-family:var(--serif);font-weight:400;font-size:30px;color:var(--accent);font-variant-numeric:tabular-nums}
 .card .m span{font-size:13px;color:var(--muted)}
 .note{margin-top:28px;font-size:12px;color:var(--muted)}
 .empty{color:var(--muted);padding:24px 0}
 /* modals */
-.ov{position:fixed;inset:0;z-index:50;background:var(--scrim);display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));animation:fade .25s both}
+.ov{position:fixed;inset:0;z-index:50;background:var(--scrim);display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));animation:fade .25s backwards}
 @keyframes fade{from{opacity:0}to{opacity:1}}
-.pn{background:var(--bg);border:1px solid var(--line);border-radius:18px;width:100%;max-width:640px;max-height:88vh;overflow-y:auto;padding:clamp(22px,4vw,40px);position:relative;animation:rise .45s cubic-bezier(.2,.7,.2,1) both}
+.pn{background:var(--bg);border:1px solid var(--line);border-radius:18px;width:100%;max-width:640px;max-height:88vh;max-height:88dvh;overflow-y:auto;padding:clamp(22px,4vw,40px);position:relative;animation:rise .45s cubic-bezier(.2,.7,.2,1) backwards}
 .pn h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,38px);line-height:1.12;letter-spacing:-.02em;margin:10px 0 18px;text-wrap:balance;padding-right:36px}
 .pn h4{margin:22px 0 6px;font:500 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .pn p{line-height:1.7;margin:0 0 10px;color:var(--fg);font-size:15px}
@@ -94,41 +163,60 @@ form{display:grid;gap:16px;margin-top:8px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .ok{text-align:left}.ok .ref{font-variant-numeric:tabular-nums;color:var(--accent);font-family:var(--serif);font-size:22px}
 @media (max-width:640px){.row2{grid-template-columns:1fr}nav{flex-wrap:wrap;gap:12px}.logo{width:100%}}
-@media (prefers-reduced-motion:reduce){.rise,.pn,.ov,.wi,nav,.card,.view *{animation:none!important}.cta span,.card{transition:none}}
+@media (prefers-reduced-motion:reduce){.rise,.pn,.ov,.wi,nav,.card,.clients,.view *{animation:none!important}.cta span,.card{transition:none}}
 </style>
 <canvas id="bg" aria-hidden="true"></canvas>
 <div class="wrap">
   <nav>
     <a class="logo" href="#">Logica</a>
-    <span class="rw"><button class="lnk" id="rs" type="button" aria-expanded="false" aria-controls="menu">Resources <i>▾</i></button><div class="menu" id="menu" hidden></div></span>
+    <span class="mn"><button class="lnk" id="rs" type="button" aria-expanded="false" aria-controls="menu">Resources <i>▾</i></button><div class="menu" id="menu" hidden></div></span>
     <button class="btn" id="si" type="button">Sign in</button>
     <button class="btn fill" id="tk" type="button">Talk to us</button>
     <button id="tg" type="button" aria-label="Toggle theme"></button>
   </nav>
 
-  <main class="hero" id="v-home">
-    <h1><span class="w"><span class="wi" style="--i:0">Your</span></span> <span class="w"><span class="wi" style="--i:1">toughest</span></span> <span class="w"><span class="wi" style="--i:2">business</span></span> <span class="w"><span class="wi" style="--i:3">challenges,</span></span> <span class="w"><span class="wi" style="--i:4"><em>solved</em></span></span></h1>
-    <p class="lead rise d1">Logica is a data company. We gather the numbers behind your daily operations, find where time and money are lost, and build the forecasts, reports and automatic tools that fix it. Every project ends with a result measured against your own figures, delivered on an agreed date and handed over to your team.</p>
-    <button class="cta rise d2" id="go-st" type="button">Explore customer stories <span>→</span></button>
-  </main>
+  <main>
+  <div id="v-home">
+    <div class="hero">
+      <h1><span class="w"><span class="wi" style="--i:0">Your</span></span> <span class="w"><span class="wi" style="--i:1">toughest</span></span> <span class="w"><span class="wi" style="--i:2">business</span></span> <span class="w"><span class="wi" style="--i:3">challenges,</span></span> <span class="w"><span class="wi" style="--i:4"><em>solved</em></span></span></h1>
+      <p class="lead rise d1">Logica is a data company. We gather the numbers behind your daily operations, find where time and money are lost, and build the forecasts, reports and automatic tools that fix it. Every project ends with a result measured against your own figures, delivered on an agreed date and handed over to your team.</p>
+      <button class="cta rise d2" id="go-st" type="button">Explore customer stories <span>→</span></button>
+    </div>
+    <section class="clients" aria-label="Recent projects">
+      <div class="lab">Recent projects</div>
+      <div class="cl" id="cl"></div>
+    </section>
+    <section class="steps" aria-label="How a project runs">
+      <div class="sh"><div class="eyebrow">How a project runs</div></div>
+      <div class="track" id="track">
+        <div class="rail" aria-hidden="true"><i id="fill"></i></div>
+        <div class="stp"><div class="eyebrow">Step 1</div><h3>Measure</h3><p>We collect the data you already have, check it for gaps and errors, and agree on the one number the project must move.</p><div class="viz"><svg viewBox="0 0 240 130" role="img" aria-label="Data points are scanned, errors removed and a trend line fitted"><defs><linearGradient id="sg" x1="0" x2="1"><stop offset="0" style="stop-color:var(--accent);stop-opacity:0"/><stop offset="1" style="stop-color:var(--accent);stop-opacity:.28"/></linearGradient></defs><line class="ax" x1="10" y1="114" x2="230" y2="114"/><circle class="g1" style="--i:0" cx="18.0" cy="99.7" r="3"/><circle class="g1" style="--i:1" cx="33.7" cy="86.7" r="3"/><circle class="g1" style="--i:2" cx="49.4" cy="90.7" r="3"/><circle class="g1" style="--i:3" cx="65.1" cy="79.6" r="3"/><circle class="g1" style="--i:4" cx="80.8" cy="82.6" r="3"/><circle class="g1" style="--i:5" cx="96.5" cy="67.6" r="3"/><circle class="g1" style="--i:6" cx="112.2" cy="68.6" r="3"/><circle class="g1" style="--i:7" cx="127.9" cy="55.6" r="3"/><circle class="g1" style="--i:8" cx="143.6" cy="61.5" r="3"/><circle class="g1" style="--i:9" cx="159.3" cy="48.5" r="3"/><circle class="g1" style="--i:10" cx="175.0" cy="50.5" r="3"/><circle class="g1" style="--i:11" cx="190.7" cy="36.5" r="3"/><circle class="g1" style="--i:12" cx="206.4" cy="38.4" r="3"/><circle class="g1" style="--i:13" cx="222.1" cy="29.4" r="3"/><circle class="bd" style="--i:2;--vd:1.42s" cx="60" cy="28" r="3.6"/><circle class="bd" style="--i:6;--vd:1.73s" cx="128" cy="104" r="3.6"/><circle class="bd" style="--i:10;--vd:2.02s" cx="190" cy="98" r="3.6"/><path class="tl" pathLength="1" d="M14 98 L226 30"/><g class="sc"><rect x="-34" y="8" width="34" height="106" fill="url(#sg)"/><rect x="-1" y="8" width="1.5" height="106" style="fill:var(--accent)"/></g></svg></div></div>
+        <div class="stp"><div class="eyebrow">Step 2</div><h3>Build</h3><p>We build the forecast, report or tool and test it against your past figures before anyone relies on it.</p><div class="viz"><svg viewBox="0 0 240 130" role="img" aria-label="A history line extended by a forecast with a widening range"><line class="ax" x1="10" y1="114" x2="230" y2="114"/><polygon class="bn" points="110,52 130,42 150,34 170,27 190,17 210,8 210,40 190,39 170,45 150,48 130,50"/><path class="hl" pathLength="1" d="M10 90 L30 80 L50 86 L70 66 L90 72 L110 52"/><circle class="hp" style="--i:0" cx="10" cy="90" r="2.6"/><circle class="hp" style="--i:1" cx="30" cy="80" r="2.6"/><circle class="hp" style="--i:2" cx="50" cy="86" r="2.6"/><circle class="hp" style="--i:3" cx="70" cy="66" r="2.6"/><circle class="hp" style="--i:4" cx="90" cy="72" r="2.6"/><circle class="hp" style="--i:5" cx="110" cy="52" r="2.6"/><path class="fl" pathLength="1" d="M110 52 L130 46 L150 40 L170 36 L190 28 L210 24"/><circle class="rng" cx="210" cy="24" r="5"/><circle class="ed" cx="210" cy="24" r="3.4"/></svg></div></div>
+        <div class="stp"><div class="eyebrow">Step 3</div><h3>Hand over</h3><p>Your team receives the code, the documentation and a working session. You own all of it.</p><div class="viz"><svg viewBox="0 0 240 130" role="img" aria-label="Three deliverables handed over and checked off"><g class="rw" style="--i:0"><rect class="cb" x="14" y="10" width="16" height="16" rx="4"/><path class="ck" pathLength="1" d="M18 19 l4 4 l8 -9"/><text class="lb" x="42" y="22">Code and models</text><text class="dt" x="42" y="37">Source files, yours to keep</text></g><g class="rw" style="--i:1"><rect class="cb" x="14" y="50" width="16" height="16" rx="4"/><path class="ck" pathLength="1" d="M18 59 l4 4 l8 -9"/><text class="lb" x="42" y="62">Documentation</text><text class="dt" x="42" y="77">Written for the next person</text></g><g class="rw" style="--i:2"><rect class="cb" x="14" y="90" width="16" height="16" rx="4"/><path class="ck" pathLength="1" d="M18 99 l4 4 l8 -9"/><text class="lb" x="42" y="102">Working session</text><text class="dt" x="42" y="117">Your team runs it with us</text></g></svg></div></div>
+      </div>
+    </section>
+  </div>
 
   <section class="view" id="v-stories" hidden>
-    <div class="eyebrow">Customer stories</div>
+    <div class="eyebrow"><a href="#">Home</a> / Customer stories</div>
     <h2 class="t">Results we measured</h2>
-    <p class="sub">Six projects, each built around one measurable result. Select a story to see the problem, what we did and the outcome.</p>
+    <p class="sub">Seven projects, each built around one measurable result. Select a story to see the problem, what we did and the outcome.</p>
     <div class="chips" id="sc"></div>
     <div class="grid" id="sg"></div>
-    <p class="note">Illustrative sample stories with fictional companies and figures.</p>
-  </section>
+    </section>
 
   <section class="view" id="v-resources" hidden>
-    <div class="eyebrow">Resources</div>
+    <div class="eyebrow"><a href="#">Home</a> / Resources</div>
     <h2 class="t">Notes from our analysts</h2>
     <p class="sub">Short guides, methods and essays. Each takes a few minutes to read.</p>
     <div class="chips" id="rc"></div>
     <div class="grid" id="rg"></div>
-    <p class="note">Illustrative sample content.</p>
-  </section>
+    </section>
+  </main>
+  <footer class="foot">
+    <a class="logo" href="#">Logica</a>
+    <span class="fn">© 2026 Logica. All companies, figures and articles on this page are fictional samples.</span>
+  </footer>
 </div>
 <div id="layer"></div>
 
@@ -159,7 +247,11 @@ var STORIES=[
 {id:5,sec:"Hospitality",name:"Orchard & Pine",title:"One forecast for nine kitchens",big:"31%",bl:"less food waste",stats:[["31%","less food waste"],["9","kitchens on one forecast"],["4 wks","to roll out"]],
  c:"Each kitchen prepared food by instinct. Quiet nights meant waste, and busy nights meant running out.",
  a:"We predicted guest numbers for each day and service from bookings, weather and local events, then turned them into prep lists chefs can change.",
- r:"Waste fell by almost a third and chefs kept the final say."}];
+ r:"Waste fell by almost a third and chefs kept the final say."},
+{id:6,sec:"Education",name:"Brightwater Schools",title:"Spotting struggling students weeks earlier",big:"6 wks",bl:"earlier warning",stats:[["6 wks","earlier warning"],["24%","fewer repeated courses"],["12","schools on one report"]],
+ c:"Teachers learned that a student was struggling only when exam results arrived, which was too late to help.",
+ a:"We combined attendance, homework and test records into a weekly list of students who need attention, and showed teachers which records caused each flag.",
+ r:"Teachers now contact families weeks earlier, and fewer students repeat a course."}];
 var RES=[
 {id:0,type:"Guide",title:"How to find where a process loses time",time:"6 min",sum:"Measure the wait at every step, then fix the longest one first.",
  b:["Write down the result you want as a number with a date. A vague goal gives a vague answer.","List every step between the start and the result, and record how long work waits at each handoff. The longest wait is often not the one people expect.","Change one thing at the longest wait and measure again. If the result does not move, the delay is somewhere else."]},
@@ -181,14 +273,16 @@ function chips(el,list,cur,key){el.innerHTML=list.map(function(l){return '<butto
 function drawStories(){
   chips($("#sc"),SECS,sf,"s");
   var l=STORIES.filter(function(s){return sf==="All"||s.sec===sf});
-  $("#sg").innerHTML=l.map(function(s){return '<button type="button" class="card" data-open="s'+s.id+'"><div class="eyebrow">'+s.sec+' · '+s.name+'</div><h3>'+s.title+'</h3><div class="m"><b>'+s.big+'</b><span>'+s.bl+'</span></div></button>'}).join("");
+  $("#sg").innerHTML=l.map(function(s){return '<button type="button" class="card" data-open="s'+s.id+'"><span class="eyebrow">'+s.sec+' · '+s.name+'</span><span class="h3">'+s.title+'</span><span class="m"><b>'+s.big+'</b><span>'+s.bl+'</span></span></button>'}).join("");
 }
 function drawRes(){
   chips($("#rc"),TYPES,rf,"t");
   var l=RES.filter(function(r){return rf==="All"||r.type===rf});
-  $("#rg").innerHTML=l.length?l.map(function(r){return '<button type="button" class="card" data-open="r'+r.id+'"><div class="eyebrow">'+r.type+' · '+r.time+' read</div><h3>'+r.title+'</h3><p>'+r.sum+'</p></button>'}).join(""):'<div class="empty">Nothing here yet.</div>';
+  $("#rg").innerHTML=l.length?l.map(function(r){return '<button type="button" class="card" data-open="r'+r.id+'"><span class="eyebrow">'+r.type+' · '+r.time+' read</span><span class="h3">'+r.title+'</span><span class="p">'+r.sum+'</span></button>'}).join(""):'<div class="empty">Nothing here yet.</div>';
 }
+function drawClients(){$("#cl").innerHTML=STORIES.map(function(s){return '<button type="button" data-open="s'+s.id+'"><span class="wm">'+s.name+'</span><small>'+s.big+' '+s.bl+'</small></button>'}).join("")}
 function route(){
+  $("#layer").innerHTML="";document.body.style.overflow="";closeMenu();
   var h=location.hash.slice(1);
   $("#v-home").hidden=h==="stories"||h==="resources";
   $("#v-stories").hidden=h!=="stories";
@@ -202,21 +296,26 @@ addEventListener("hashchange",route);
 var menu=$("#menu"),rs=$("#rs");
 menu.innerHTML=[["Customer stories","Results from past projects","stories"],["Guides","Step-by-step instructions","Guide"],["Methods","How our projects run","Method"],["Insights","Short essays","Insight"],["All resources","Browse everything","All"]].map(function(m){return '<button type="button" data-m="'+m[2]+'">'+m[0]+'<small>'+m[1]+'</small></button>'}).join("");
 function closeMenu(){menu.hidden=true;rs.setAttribute("aria-expanded","false")}
-rs.addEventListener("click",function(e){e.stopPropagation();var o=menu.hidden;menu.hidden=!o;rs.setAttribute("aria-expanded",String(o))});
+rs.addEventListener("click",function(e){e.stopPropagation();var o=menu.hidden;menu.hidden=!o;rs.setAttribute("aria-expanded",String(o));if(o)menu.querySelector("button").focus()});
 menu.addEventListener("click",function(e){var b=e.target.closest("[data-m]");if(!b)return;var v=b.dataset.m;closeMenu();
   if(v==="stories"){sf="All";location.hash="stories"}else{rf=v;if(location.hash==="#resources")drawRes();location.hash="resources"}});
 document.addEventListener("click",function(e){if(!menu.hidden&&!menu.contains(e.target))closeMenu()});
 
 /* modal helpers */
 function close(){$("#layer").innerHTML="";document.body.style.overflow="";if(last&&last.focus)last.focus()}
-function modal(html){last=document.activeElement;var L=$("#layer");L.innerHTML='<div class="ov" role="dialog" aria-modal="true"><div class="pn">'+'<button type="button" class="x" aria-label="Close">×</button>'+html+'</div></div>';document.body.style.overflow="hidden";L.querySelector(".x").focus();
+function modal(html){last=document.activeElement;html=html.replace("<h2>",'<h2 id="mt">');var L=$("#layer");L.innerHTML='<div class="ov" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="pn">'+'<button type="button" class="x" aria-label="Close">×</button>'+html+'</div></div>';document.body.style.overflow="hidden";L.querySelector(".x").focus();
   L.querySelector(".ov").addEventListener("click",function(e){if(e.target===this||e.target.closest(".x"))close()})}
-addEventListener("keydown",function(e){if(e.key==="Escape"){close();closeMenu()}});
+addEventListener("keydown",function(e){
+  if(e.key==="Escape"){if(!menu.hidden){closeMenu();rs.focus()}else if($("#layer").firstChild)close()}
+  if(e.key==="Tab"&&$("#layer").firstChild){var q=[].slice.call($(".pn").querySelectorAll("button,input,select,textarea,a[href]")).filter(function(n){return !n.disabled});
+    if(!q.length)return;var a=q[0],z=q[q.length-1];
+    if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}
+});
 
 function detail(k){
   var s=k[0]==="s",i=+k.slice(1),d=s?STORIES[i]:RES[i],h;
-  if(s){h='<div class="eyebrow">'+d.sec+' · '+d.name+'</div><h2>'+d.title+'</h2><div class="stats">'+d.stats.map(function(x){return '<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join("")+'</div><h4>Problem</h4><p>'+d.c+'</p><h4>What we did</h4><p>'+d.a+'</p><h4>Outcome</h4><p>'+d.r+'</p><p class="note">Illustrative sample story.</p>';}
-  else{h='<div class="eyebrow">'+d.type+' · '+d.time+' read</div><h2>'+d.title+'</h2>'+d.b.map(function(p){return '<p>'+p+'</p>'}).join("")+'<p class="note">Illustrative sample content.</p>';}
+  if(s){h='<div class="eyebrow">'+d.sec+' · '+d.name+'</div><h2>'+d.title+'</h2><div class="stats">'+d.stats.map(function(x){return '<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join("")+'</div><h4>Problem</h4><p>'+d.c+'</p><h4>What we did</h4><p>'+d.a+'</p><h4>Outcome</h4><p>'+d.r+'</p>';}
+  else{h='<div class="eyebrow">'+d.type+' · '+d.time+' read</div><h2>'+d.title+'</h2>'+d.b.map(function(p){return '<p>'+p+'</p>'}).join("")+'';}
   h+='<div class="ft"><button type="button" class="btn fill" data-talk="'+(s?d.sec:"")+'">'+(s?"Discuss a similar problem":"Talk to an analyst")+'</button></div>';
   modal(h);
 }
@@ -259,21 +358,21 @@ var c=$("#bg"),x=c.getContext("2d"),W,H,dpr,mx=-1e3,my=-1e3,col="#b0aea5",acc="#
 var rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
 function size(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0)}
 function cols(){var s=getComputedStyle(document.documentElement);col=s.getPropertyValue("--wave").trim()||col;acc=s.getPropertyValue("--accent").trim()||acc}
-addEventListener("resize",size);addEventListener("pointermove",function(e){mx=e.clientX;my=e.clientY});
+addEventListener("resize",function(){size();if(rm)requestAnimationFrame(draw)});if(rm)addEventListener("scroll",function(){requestAnimationFrame(draw)},{passive:true});addEventListener("pointermove",function(e){mx=e.clientX;my=e.clientY});
 var N=26,sx=-1e3,sy=-1e3,t0=null,HOT=16;
 function ez(v){v=Math.max(0,Math.min(1,v));return 1-Math.pow(1-v,3)}
 function yAt(i,px,t,k,par){
   return H*(.1+.82*k)+Math.sin(px*.0035+t*.00016+k*3.2+par)*(16+38*k)+Math.sin(px*.009-t*.0001+k*5)*8+Math.sin(px*.0016+t*.00007+k*9)*(10+14*k)}
 function draw(t){
-  if(t0===null)t0=t;var e=t-t0;
-  if(f++%30===0)cols();
+  if(t0===null)t0=t;var e=rm?1e5:t-t0;
+  if(f++%30===0)cols();var fd=Math.max(.3,1-(window.scrollY||0)/800);
   if(mx<-900){sx=W/2;sy=H/2}else{sx+=(mx-sx)*.05;sy+=(my-sy)*.05}
   var par=(sx/W-.5)*1.2,off=(sy/H-.5)*26;
   x.clearRect(0,0,W,H);x.lineWidth=1;x.lineCap="round";
   for(var i=0;i<N;i++){
     var k=i/(N-1),hot=i===HOT,r=ez((e-i*55)/2600),len=W*r;if(r<=0)continue;
     x.beginPath();x.strokeStyle=hot?acc:col;
-    x.globalAlpha=(hot?.6:.1+.16*Math.sin(k*3.14))*Math.min(1,r*1.6);
+    x.globalAlpha=(hot?.6:.1+.16*Math.sin(k*3.14))*Math.min(1,r*1.6)*fd;
     for(var px=0;px<=len;px+=8){
       var y=yAt(i,px,t,k,par*k*2)+off*(k-.5);
       var dx=px-sx,dy=y-sy,d=Math.sqrt(dx*dx+dy*dy);
@@ -289,19 +388,45 @@ function draw(t){
     for(var j=0;j<26;j++){
       var tx=hx-j*7;if(tx<0)break;
       var ty=yAt(HOT,tx,t,hk,par*hk*2)+off*(hk-.5);
-      x.globalAlpha=Math.min(1,e/3000)*(1-j/26)*.7;x.fillStyle=acc;
+      x.globalAlpha=Math.min(1,e/3000)*(1-j/26)*.7*fd;x.fillStyle=acc;
       x.beginPath();x.arc(tx,ty,j?1.1*(1-j/34):2.6,0,6.283);x.fill();
     }
   }
   x.globalAlpha=1;
   if(!rm)requestAnimationFrame(draw);
 }
+try{var sv=localStorage.getItem("lg-theme");if(sv)document.documentElement.setAttribute("data-theme",sv)}catch(_){}
 size();cols();requestAnimationFrame(draw);
 $("#tg").addEventListener("click",function(){
   var r=document.documentElement,d=r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
-  r.setAttribute("data-theme",d==="dark"?"light":"dark");setTimeout(cols,30);if(rm)requestAnimationFrame(draw);
+  var nx=d==="dark"?"light":"dark";r.setAttribute("data-theme",nx);try{localStorage.setItem("lg-theme",nx)}catch(_){}setTimeout(cols,30);if(rm)requestAnimationFrame(draw);
 });
-route();
+/* project steps timeline */
+(function(){
+  var tr=$("#track");if(!tr||rm||!("IntersectionObserver" in window))return;
+  var st=[].slice.call(tr.querySelectorAll(".stp")),fl=$("#fill"),T=[],run=false,D=3400;
+  function at(fn,ms){T.push(setTimeout(fn,ms))}
+  function clear(){T.forEach(clearTimeout);T=[]}
+  function reset(){st.forEach(function(n){n.classList.remove("on","play","done")})}
+  function cycle(){
+    clear();reset();tr.classList.add("arm");
+    tr.classList.toggle("stack",st[1].offsetLeft<=st[0].offsetLeft);
+    void tr.offsetWidth;
+    st.forEach(function(n,i){
+      at(function(){fl.style.width=(i?n.offsetLeft:0)+"px";n.classList.add("on")},i*D+60);
+      at(function(){n.classList.add("play")},i*D+(i?700:60));
+      at(function(){n.classList.remove("play");n.classList.add("done")},i*D+D);
+    });
+    at(function(){fl.style.width="100%"},st.length*D-D+900);
+    at(cycle,st.length*D+4200);
+  }
+  function stop(){clear();reset();tr.classList.remove("arm");fl.style.width=""}
+  new IntersectionObserver(function(en){
+    var v=en[0].isIntersecting;
+    if(v&&!run){run=true;cycle()}else if(!v&&run){run=false;stop()}
+  },{threshold:.35}).observe(tr);
+})();
+drawClients();route();
 })();
 </script>
 
