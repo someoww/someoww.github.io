@@ -1,0 +1,308 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Logica</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap">
+<style>
+/* Layout: quiet nav, three hash views (home, stories, resources), shared detail modal and contact modal over a wave-line canvas. */
+:root{
+  --bg:#faf9f5; --fg:#141413; --muted:#6b6a64; --line:#e3dacc; --accent:#d97757; --accent-fg:#faf9f5; --wave:#b0aea5; --card:#fffefb; --scrim:rgba(20,20,19,.45); --err:#b3402a;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif; --sans:"DM Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141413;--fg:#faf9f5;--muted:#b0aea5;--line:#2e2d2a;--accent:#d97757;--accent-fg:#141413;--wave:#6b6a64;--card:#1b1a18;--scrim:rgba(0,0,0,.6);--err:#f08a70;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141413;--fg:#faf9f5;--muted:#b0aea5;--line:#2e2d2a;--accent:#d97757;--accent-fg:#141413;--wave:#6b6a64;--card:#1b1a18;--scrim:rgba(0,0,0,.6);--err:#f08a70;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);min-height:100vh;position:relative;overflow-x:hidden;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto}
+nav{display:flex;align-items:center;gap:18px;padding-block:28px;position:relative;z-index:20}
+.rw{position:relative}
+.logo{font-family:var(--serif);font-size:26px;letter-spacing:-.01em;margin-right:auto;color:var(--fg);text-decoration:none}
+.lnk{color:var(--muted);background:none;border:0;font:400 15px var(--sans);cursor:pointer;padding:6px 0;display:inline-flex;gap:6px;align-items:center;text-decoration:none;transition:color .2s}
+.lnk:hover,.lnk[aria-expanded="true"]{color:var(--fg)}
+.lnk i{font-style:normal;font-size:10px;transition:transform .2s}.lnk[aria-expanded="true"] i{transform:rotate(180deg)}
+.menu{position:absolute;top:calc(100% + 12px);left:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px;min-width:220px;z-index:5;box-shadow:0 12px 32px -12px var(--scrim)}
+.menu button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--fg);font:400 14px var(--sans);padding:10px 12px;border-radius:8px;cursor:pointer}
+.menu button small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.menu button:hover{background:var(--line)}
+.btn{font:500 14px var(--sans);padding:9px 18px;border-radius:999px;border:1px solid var(--line);color:var(--fg);background:transparent;text-decoration:none;transition:background .2s,border-color .2s,color .2s;cursor:pointer}
+.btn:hover{border-color:var(--fg)}
+.btn.fill{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.btn.fill:hover{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+#tg{width:34px;height:34px;border-radius:50%;border:1px solid var(--fg);background:transparent;cursor:pointer;position:relative;overflow:hidden;padding:0}
+#tg::after{content:"";position:absolute;inset:0;background:var(--fg);clip-path:inset(0 50% 0 0)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding-block:clamp(72px,14vw,168px) clamp(72px,12vw,140px)}
+h1{font-family:var(--serif);font-weight:400;font-size:clamp(40px,7vw,84px);line-height:1.04;letter-spacing:-.025em;margin:0;text-wrap:balance;max-width:14ch}
+h1 em{color:var(--accent);font-style:italic}
+p.lead{font-size:clamp(16px,1.6vw,19px);line-height:1.65;color:var(--muted);max-width:56ch;margin:36px 0 44px;text-wrap:pretty}
+.cta{display:inline-flex;align-items:center;gap:10px;color:var(--fg);background:none;border:0;border-bottom:1px solid var(--line);font:500 16px var(--sans);padding:0 0 4px;cursor:pointer;transition:border-color .25s}
+.cta span{display:inline-block;transition:transform .3s}
+.cta:hover{border-color:var(--accent)}.cta:hover span{transform:translateX(6px)}
+.rise{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.1s}.d2{animation-delay:.25s}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:.04em .06em .14em;margin:-.04em -.06em -.14em}
+.wi{display:inline-block;animation:wd 1.2s cubic-bezier(.16,.84,.2,1) both;animation-delay:calc(var(--i)*110ms + 200ms)}
+@keyframes wd{from{transform:translateY(110%) rotate(2deg);filter:blur(8px);opacity:0}to{transform:none;filter:blur(0);opacity:1}}
+.lead.rise{animation-duration:1.2s;animation-delay:.95s}.cta.rise{animation-duration:1.2s;animation-delay:1.25s}
+nav{animation:fade 1.2s .1s both}
+.view:not([hidden]) .eyebrow,.view:not([hidden]) .t,.view:not([hidden]) .sub,.view:not([hidden]) .chips{animation:rise .8s cubic-bezier(.16,.84,.2,1) both}
+.view:not([hidden]) .t{animation-delay:.07s}.view:not([hidden]) .sub{animation-delay:.14s}.view:not([hidden]) .chips{animation-delay:.2s}
+.view:not([hidden]) .card{animation:rise .8s cubic-bezier(.16,.84,.2,1) both}
+.grid .card:nth-child(1){animation-delay:320ms}.grid .card:nth-child(2){animation-delay:390ms}.grid .card:nth-child(3){animation-delay:460ms}.grid .card:nth-child(4){animation-delay:530ms}.grid .card:nth-child(5){animation-delay:600ms}.grid .card:nth-child(6){animation-delay:670ms}.grid .card:nth-child(7){animation-delay:740ms}.grid .card:nth-child(8){animation-delay:810ms}
+/* inner views */
+.view{padding-block:clamp(32px,6vw,72px) 96px}
+.view h2.t{font-family:var(--serif);font-weight:400;font-size:clamp(34px,5vw,56px);letter-spacing:-.02em;line-height:1.08;margin:0 0 14px;text-wrap:balance}
+.view p.sub{color:var(--muted);max-width:60ch;line-height:1.65;margin:0 0 32px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+.chip{font:400 13px var(--sans);padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s}
+.chip:hover{color:var(--fg);border-color:var(--fg)}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:16px}
+.card{min-width:0;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;gap:14px;cursor:pointer;color:var(--fg);font:inherit;transition:border-color .25s,transform .25s}
+.card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.card h3{font-family:var(--serif);font-weight:400;font-size:23px;line-height:1.2;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.card p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+.card .m{margin-top:auto;display:flex;align-items:baseline;gap:8px;padding-top:6px;border-top:1px solid var(--line)}
+.card .m b{font-family:var(--serif);font-weight:400;font-size:30px;color:var(--accent);font-variant-numeric:tabular-nums}
+.card .m span{font-size:13px;color:var(--muted)}
+.note{margin-top:28px;font-size:12px;color:var(--muted)}
+.empty{color:var(--muted);padding:24px 0}
+/* modals */
+.ov{position:fixed;inset:0;z-index:50;background:var(--scrim);display:flex;align-items:center;justify-content:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));animation:fade .25s both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.pn{background:var(--bg);border:1px solid var(--line);border-radius:18px;width:100%;max-width:640px;max-height:88vh;overflow-y:auto;padding:clamp(22px,4vw,40px);position:relative;animation:rise .45s cubic-bezier(.2,.7,.2,1) both}
+.pn h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,38px);line-height:1.12;letter-spacing:-.02em;margin:10px 0 18px;text-wrap:balance;padding-right:36px}
+.pn h4{margin:22px 0 6px;font:500 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pn p{line-height:1.7;margin:0 0 10px;color:var(--fg);font-size:15px}
+.x{position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--fg);font-size:18px;line-height:1;cursor:pointer}
+.x:hover{border-color:var(--fg)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin:20px 0 6px}
+.stats div{border:1px solid var(--line);border-radius:12px;padding:14px}
+.stats b{display:block;font-family:var(--serif);font-weight:400;font-size:30px;color:var(--accent)}
+.stats span{font-size:12px;color:var(--muted)}
+.ft{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+form{display:grid;gap:16px;margin-top:8px}
+.f{display:grid;gap:6px}
+.f label{font-size:13px;color:var(--muted)}
+.f input,.f select,.f textarea{font:400 15px var(--sans);color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%}
+.f textarea{min-height:110px;resize:vertical}
+.f .er{font-size:12px;color:var(--err);min-height:0}
+.f[data-bad] input,.f[data-bad] textarea{border-color:var(--err)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ok{text-align:left}.ok .ref{font-variant-numeric:tabular-nums;color:var(--accent);font-family:var(--serif);font-size:22px}
+@media (max-width:640px){.row2{grid-template-columns:1fr}nav{flex-wrap:wrap;gap:12px}.logo{width:100%}}
+@media (prefers-reduced-motion:reduce){.rise,.pn,.ov,.wi,nav,.card,.view *{animation:none!important}.cta span,.card{transition:none}}
+</style>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="wrap">
+  <nav>
+    <a class="logo" href="#">Logica</a>
+    <span class="rw"><button class="lnk" id="rs" type="button" aria-expanded="false" aria-controls="menu">Resources <i>▾</i></button><div class="menu" id="menu" hidden></div></span>
+    <button class="btn" id="si" type="button">Sign in</button>
+    <button class="btn fill" id="tk" type="button">Talk to us</button>
+    <button id="tg" type="button" aria-label="Toggle theme"></button>
+  </nav>
+
+  <main class="hero" id="v-home">
+    <h1><span class="w"><span class="wi" style="--i:0">Your</span></span> <span class="w"><span class="wi" style="--i:1">toughest</span></span> <span class="w"><span class="wi" style="--i:2">business</span></span> <span class="w"><span class="wi" style="--i:3">challenges,</span></span> <span class="w"><span class="wi" style="--i:4"><em>solved</em></span></span></h1>
+    <p class="lead rise d1">Logica is a data company. We gather the numbers behind your daily operations, find where time and money are lost, and build the forecasts, reports and automatic tools that fix it. Every project ends with a result measured against your own figures, delivered on an agreed date and handed over to your team.</p>
+    <button class="cta rise d2" id="go-st" type="button">Explore customer stories <span>→</span></button>
+  </main>
+
+  <section class="view" id="v-stories" hidden>
+    <div class="eyebrow">Customer stories</div>
+    <h2 class="t">Results we measured</h2>
+    <p class="sub">Six projects, each built around one measurable result. Select a story to see the problem, what we did and the outcome.</p>
+    <div class="chips" id="sc"></div>
+    <div class="grid" id="sg"></div>
+    <p class="note">Illustrative sample stories with fictional companies and figures.</p>
+  </section>
+
+  <section class="view" id="v-resources" hidden>
+    <div class="eyebrow">Resources</div>
+    <h2 class="t">Notes from our analysts</h2>
+    <p class="sub">Short guides, methods and essays. Each takes a few minutes to read.</p>
+    <div class="chips" id="rc"></div>
+    <div class="grid" id="rg"></div>
+    <p class="note">Illustrative sample content.</p>
+  </section>
+</div>
+<div id="layer"></div>
+
+<script>
+(function(){
+var $=function(s){return document.querySelector(s)};
+var STORIES=[
+{id:0,sec:"Retail",name:"Meridian Foods",title:"Fewer empty shelves across 120 stores",big:"38%",bl:"fewer stockouts",stats:[["38%","fewer stockouts"],["11 → 4","days from order to shelf"],["6 wks","to first working forecast"]],
+ c:"Store managers ordered by habit. Popular items sold out on weekends while slow items expired in the back room.",
+ a:"We analysed three years of sales for every store and product, built a forecast for each, and added a suggested order quantity to the screen managers already used.",
+ r:"Stockouts fell by more than a third in the first quarter, and waste dropped on items with the shortest shelf life."},
+{id:1,sec:"Logistics",name:"Harborline Freight",title:"Delivery routes planned in minutes",big:"92%",bl:"less planning time",stats:[["92%","less planning time"],["14%","fewer empty miles"],["3","depots on one plan"]],
+ c:"Dispatchers rebuilt routes by hand each morning in spreadsheets, and each depot planned alone.",
+ a:"We wrote a program that plans routes from driver hours, delivery windows and vehicle size, and shows dispatchers the reason for each choice.",
+ r:"Plans are ready before the first driver clocks in. Dispatchers now spend that time on delays and changes."},
+{id:2,sec:"Healthcare",name:"Northvale Clinics",title:"Shorter waits with the same staff",big:"27%",bl:"shorter median wait",stats:[["27%","shorter median wait"],["19%","fewer missed appointments"],["0","new hires"]],
+ c:"Every appointment had the same length, but visits did not. One long visit delayed everyone after it.",
+ a:"We measured how long each type of visit takes, set slot lengths to match, and sent reminders to the patients most likely to miss their appointment.",
+ r:"Clinics ran closer to schedule and filled time that missed appointments used to waste."},
+{id:3,sec:"Manufacturing",name:"Kestrel Components",title:"Warnings before machines stop",big:"41%",bl:"less unplanned downtime",stats:[["41%","less unplanned downtime"],["72 h","typical warning time"],["2","plants live"]],
+ c:"Machines were serviced on a fixed calendar. Some broke between checks while healthy ones were opened early.",
+ a:"We combined sensor readings with repair records to rank machines by chance of failure, and gave planners a new ranked list every week.",
+ r:"Repairs moved into planned windows instead of happening in the middle of a shift."},
+{id:4,sec:"Finance",name:"Lumen Credit",title:"Credit decisions in minutes, with reasons attached",big:"3 min",bl:"median decision time",stats:[["3 min","median decision time"],["22%","fewer early defaults"],["100%","decisions with a recorded reason"]],
+ c:"Applications waited days for manual review, and reviewers could not always explain earlier decisions.",
+ a:"We built a simple points system from past repayment data, sent unclear cases to reviewers with the reasons shown, and kept a record of every decision.",
+ r:"Most applicants get an answer within minutes, and any decision can be traced to the data behind it."},
+{id:5,sec:"Hospitality",name:"Orchard & Pine",title:"One forecast for nine kitchens",big:"31%",bl:"less food waste",stats:[["31%","less food waste"],["9","kitchens on one forecast"],["4 wks","to roll out"]],
+ c:"Each kitchen prepared food by instinct. Quiet nights meant waste, and busy nights meant running out.",
+ a:"We predicted guest numbers for each day and service from bookings, weather and local events, then turned them into prep lists chefs can change.",
+ r:"Waste fell by almost a third and chefs kept the final say."}];
+var RES=[
+{id:0,type:"Guide",title:"How to find where a process loses time",time:"6 min",sum:"Measure the wait at every step, then fix the longest one first.",
+ b:["Write down the result you want as a number with a date. A vague goal gives a vague answer.","List every step between the start and the result, and record how long work waits at each handoff. The longest wait is often not the one people expect.","Change one thing at the longest wait and measure again. If the result does not move, the delay is somewhere else."]},
+{id:1,type:"Method",title:"How a fixed-price data project works",time:"5 min",sum:"What we agree before work starts, and what you receive at the end.",
+ b:["Each project starts with one deliverable and a test for it, such as a forecast that stays within an agreed error, or a report that builds itself.","We set a price and a date for that deliverable and review progress at fixed points. Changes to the scope are priced separately and in writing.","At the end you own the code, the models and the documentation."]},
+{id:2,type:"Insight",title:"Why many dashboards go unread",time:"4 min",sum:"A dashboard helps only when it is built for a specific decision.",
+ b:["Ask which decision the dashboard changes and who makes it. If neither has a name, nobody will open it.","Start from the decision, list the two or three numbers it needs, and show only those. Put everything else in a separate table."]},
+{id:3,type:"Guide",title:"A data checklist before any project",time:"7 min",sum:"Ten questions to answer before we build anything.",
+ b:["Can you export the last 24 months of the data you care about, with dates? Does each source have one owner?","Do customers and products carry the same ID in every system? Mismatched IDs cause the most delays.","Which fields are typed in by hand? Check those first for errors."]},
+{id:4,type:"Method",title:"Replacing the weekly spreadsheet report",time:"5 min",sum:"Turn a manual weekly report into one that updates itself and checks its own numbers.",
+ b:["List every manual step in the current report, including copy and paste. Each step becomes a task with a check at the end.","Automate the data collection first, then the calculations, and the layout last. Run the old and new reports side by side for two weeks and compare the numbers."]},
+{id:5,type:"Insight",title:"Measure forecast errors in money",time:"4 min",sum:"A percentage error hides what a wrong forecast costs.",
+ b:["A 5% error on fresh food costs a different amount than a 5% error on hardware. Convert each error into currency.","Once an error has a price, you can decide how much extra accuracy is worth paying for."]}];
+var SECS=["All"].concat(STORIES.map(function(s){return s.sec}));
+var TYPES=["All","Guide","Method","Insight"];
+var sf="All",rf="All",last=null;
+
+function chips(el,list,cur,key){el.innerHTML=list.map(function(l){return '<button type="button" class="chip" data-'+key+'="'+l+'" aria-pressed="'+(l===cur)+'">'+(l==="All"?"All":l)+(key==="t"&&l!=="All"?"s":"")+'</button>'}).join("")}
+function drawStories(){
+  chips($("#sc"),SECS,sf,"s");
+  var l=STORIES.filter(function(s){return sf==="All"||s.sec===sf});
+  $("#sg").innerHTML=l.map(function(s){return '<button type="button" class="card" data-open="s'+s.id+'"><div class="eyebrow">'+s.sec+' · '+s.name+'</div><h3>'+s.title+'</h3><div class="m"><b>'+s.big+'</b><span>'+s.bl+'</span></div></button>'}).join("");
+}
+function drawRes(){
+  chips($("#rc"),TYPES,rf,"t");
+  var l=RES.filter(function(r){return rf==="All"||r.type===rf});
+  $("#rg").innerHTML=l.length?l.map(function(r){return '<button type="button" class="card" data-open="r'+r.id+'"><div class="eyebrow">'+r.type+' · '+r.time+' read</div><h3>'+r.title+'</h3><p>'+r.sum+'</p></button>'}).join(""):'<div class="empty">Nothing here yet.</div>';
+}
+function route(){
+  var h=location.hash.slice(1);
+  $("#v-home").hidden=h==="stories"||h==="resources";
+  $("#v-stories").hidden=h!=="stories";
+  $("#v-resources").hidden=h!=="resources";
+  if(h==="stories")drawStories();if(h==="resources")drawRes();
+  window.scrollTo(0,0);
+}
+addEventListener("hashchange",route);
+
+/* menu */
+var menu=$("#menu"),rs=$("#rs");
+menu.innerHTML=[["Customer stories","Results from past projects","stories"],["Guides","Step-by-step instructions","Guide"],["Methods","How our projects run","Method"],["Insights","Short essays","Insight"],["All resources","Browse everything","All"]].map(function(m){return '<button type="button" data-m="'+m[2]+'">'+m[0]+'<small>'+m[1]+'</small></button>'}).join("");
+function closeMenu(){menu.hidden=true;rs.setAttribute("aria-expanded","false")}
+rs.addEventListener("click",function(e){e.stopPropagation();var o=menu.hidden;menu.hidden=!o;rs.setAttribute("aria-expanded",String(o))});
+menu.addEventListener("click",function(e){var b=e.target.closest("[data-m]");if(!b)return;var v=b.dataset.m;closeMenu();
+  if(v==="stories"){sf="All";location.hash="stories"}else{rf=v;if(location.hash==="#resources")drawRes();location.hash="resources"}});
+document.addEventListener("click",function(e){if(!menu.hidden&&!menu.contains(e.target))closeMenu()});
+
+/* modal helpers */
+function close(){$("#layer").innerHTML="";document.body.style.overflow="";if(last&&last.focus)last.focus()}
+function modal(html){last=document.activeElement;var L=$("#layer");L.innerHTML='<div class="ov" role="dialog" aria-modal="true"><div class="pn">'+'<button type="button" class="x" aria-label="Close">×</button>'+html+'</div></div>';document.body.style.overflow="hidden";L.querySelector(".x").focus();
+  L.querySelector(".ov").addEventListener("click",function(e){if(e.target===this||e.target.closest(".x"))close()})}
+addEventListener("keydown",function(e){if(e.key==="Escape"){close();closeMenu()}});
+
+function detail(k){
+  var s=k[0]==="s",i=+k.slice(1),d=s?STORIES[i]:RES[i],h;
+  if(s){h='<div class="eyebrow">'+d.sec+' · '+d.name+'</div><h2>'+d.title+'</h2><div class="stats">'+d.stats.map(function(x){return '<div><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join("")+'</div><h4>Problem</h4><p>'+d.c+'</p><h4>What we did</h4><p>'+d.a+'</p><h4>Outcome</h4><p>'+d.r+'</p><p class="note">Illustrative sample story.</p>';}
+  else{h='<div class="eyebrow">'+d.type+' · '+d.time+' read</div><h2>'+d.title+'</h2>'+d.b.map(function(p){return '<p>'+p+'</p>'}).join("")+'<p class="note">Illustrative sample content.</p>';}
+  h+='<div class="ft"><button type="button" class="btn fill" data-talk="'+(s?d.sec:"")+'">'+(s?"Discuss a similar problem":"Talk to an analyst")+'</button></div>';
+  modal(h);
+}
+function talk(area){
+  var opts=["Operations and delivery","Forecasts and planning","Reports and automation","Risk and credit","Something else"];
+  var map={Retail:1,Logistics:0,Healthcare:0,Manufacturing:0,Finance:3,Hospitality:1};
+  var pre=area&&map[area]!==undefined?map[area]:-1;
+  modal('<div class="eyebrow">Talk to us</div><h2>Tell us about the problem</h2><form id="tf" novalidate>'+
+   '<div class="row2"><div class="f"><label for="n">Name</label><input id="n" autocomplete="name"><div class="er"></div></div><div class="f"><label for="e">Work email</label><input id="e" type="email" autocomplete="email"><div class="er"></div></div></div>'+
+   '<div class="row2"><div class="f"><label for="c">Company</label><input id="c" autocomplete="organization"></div><div class="f"><label for="a">Area</label><select id="a">'+opts.map(function(o,j){return '<option'+(j===pre?' selected':'')+'>'+o+'</option>'}).join("")+'</select></div></div>'+
+   '<div class="f"><label for="m">What do you want to fix?</label><textarea id="m"></textarea><div class="er"></div></div>'+
+   '<div class="ft" style="margin:0"><button class="btn fill" type="submit">Send request</button></div></form>');
+  $("#n").focus();
+  $("#tf").addEventListener("submit",function(e){
+    e.preventDefault();var ok=true;
+    function chk(id,t,msg){var f=$("#"+id).closest(".f"),bad=!t($("#"+id).value.trim());if(bad)ok=false;if(bad){f.setAttribute("data-bad","");f.querySelector(".er").textContent=msg}else{f.removeAttribute("data-bad");f.querySelector(".er").textContent=""}}
+    chk("n",function(v){return v.length>1},"Enter your name.");
+    chk("e",function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)},"Enter a valid email address.");
+    chk("m",function(v){return v.length>=10},"Add a sentence or two so we can prepare.");
+    if(!ok)return;
+    var nm=$("#n").value.trim().split(" ")[0],ref="LG-"+(1000+Math.floor(Math.random()*9000));
+    $(".pn").innerHTML='<button type="button" class="x" aria-label="Close">×</button><div class="ok"><div class="eyebrow">Request logged</div><h2>Thank you, '+nm.replace(/[<>&]/g,"")+'.</h2><p>A data analyst will reply within one business day with two or three questions and a proposed first deliverable.</p><p class="ref">Reference '+ref+'</p><p class="note">This is a demo page. Nothing was transmitted.</p><div class="ft"><button type="button" class="btn" data-close>Close</button></div></div>';
+    $(".x").focus();
+  });
+}
+document.addEventListener("click",function(e){
+  var t=e.target;
+  var o=t.closest("[data-open]");if(o)return detail(o.dataset.open);
+  var tk=t.closest("[data-talk]");if(tk)return talk(tk.dataset.talk);
+  if(t.closest("[data-close]"))return close();
+  var s=t.closest("[data-s]");if(s){sf=s.dataset.s;return drawStories()}
+  var ty=t.closest("[data-t]");if(ty){rf=ty.dataset.t;return drawRes()}
+});
+$("#tk").addEventListener("click",function(){talk("")});
+$("#si").addEventListener("click",function(e){e.preventDefault()});
+$("#go-st").addEventListener("click",function(){sf="All";location.hash="stories"});
+
+/* background */
+var c=$("#bg"),x=c.getContext("2d"),W,H,dpr,mx=-1e3,my=-1e3,col="#b0aea5",acc="#d97757",f=0;
+var rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+function size(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;c.width=W*dpr;c.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0)}
+function cols(){var s=getComputedStyle(document.documentElement);col=s.getPropertyValue("--wave").trim()||col;acc=s.getPropertyValue("--accent").trim()||acc}
+addEventListener("resize",size);addEventListener("pointermove",function(e){mx=e.clientX;my=e.clientY});
+var N=26,sx=-1e3,sy=-1e3,t0=null,HOT=16;
+function ez(v){v=Math.max(0,Math.min(1,v));return 1-Math.pow(1-v,3)}
+function yAt(i,px,t,k,par){
+  return H*(.1+.82*k)+Math.sin(px*.0035+t*.00016+k*3.2+par)*(16+38*k)+Math.sin(px*.009-t*.0001+k*5)*8+Math.sin(px*.0016+t*.00007+k*9)*(10+14*k)}
+function draw(t){
+  if(t0===null)t0=t;var e=t-t0;
+  if(f++%30===0)cols();
+  if(mx<-900){sx=W/2;sy=H/2}else{sx+=(mx-sx)*.05;sy+=(my-sy)*.05}
+  var par=(sx/W-.5)*1.2,off=(sy/H-.5)*26;
+  x.clearRect(0,0,W,H);x.lineWidth=1;x.lineCap="round";
+  for(var i=0;i<N;i++){
+    var k=i/(N-1),hot=i===HOT,r=ez((e-i*55)/2600),len=W*r;if(r<=0)continue;
+    x.beginPath();x.strokeStyle=hot?acc:col;
+    x.globalAlpha=(hot?.6:.1+.16*Math.sin(k*3.14))*Math.min(1,r*1.6);
+    for(var px=0;px<=len;px+=8){
+      var y=yAt(i,px,t,k,par*k*2)+off*(k-.5);
+      var dx=px-sx,dy=y-sy,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<200){var q=1-d/200;y+=q*q*(dy>0?1:-1)*18}
+      px?x.lineTo(px,y):x.moveTo(px,y);
+    }
+    x.stroke();
+  }
+  /* signals travelling along the accent line */
+  var hk=HOT/(N-1);
+  for(var n=0;n<3;n++){
+    var ph=((t*.00004*(1+n*.35)+n*.33)%1),hx=ph*W;
+    for(var j=0;j<26;j++){
+      var tx=hx-j*7;if(tx<0)break;
+      var ty=yAt(HOT,tx,t,hk,par*hk*2)+off*(hk-.5);
+      x.globalAlpha=Math.min(1,e/3000)*(1-j/26)*.7;x.fillStyle=acc;
+      x.beginPath();x.arc(tx,ty,j?1.1*(1-j/34):2.6,0,6.283);x.fill();
+    }
+  }
+  x.globalAlpha=1;
+  if(!rm)requestAnimationFrame(draw);
+}
+size();cols();requestAnimationFrame(draw);
+$("#tg").addEventListener("click",function(){
+  var r=document.documentElement,d=r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light");
+  r.setAttribute("data-theme",d==="dark"?"light":"dark");setTimeout(cols,30);if(rm)requestAnimationFrame(draw);
+});
+route();
+})();
+</script>
+
+</body></html>
