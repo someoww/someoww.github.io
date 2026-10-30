@@ -1,0 +1,53 @@
+/* Shared design tokens. The room and the pages use one palette. */
+:root{
+  --bg:#eef0ea;
+  --bg-deep:#e4e7df;
+  --panel:#f7f7f1;
+  --panel-2:#eef0e8;
+  --paper:#f4f3ea;
+  --ink:#1d2723;
+  --muted:#5d6a63;
+  --faint:#87938b;
+  --line:rgba(29,39,35,.16);
+  --line-soft:rgba(29,39,35,.08);
+  --accent:#2f5d50;
+  --accent-soft:rgba(47,93,80,.10);
+  --brass:#8f6a35;
+  --oxide:#9a3f2f;
+  --oxide-soft:rgba(154,63,47,.08);
+  --ok:#3e6f63;
+  --warn:#8f6a35;
+  --grid:rgba(47,93,80,.05);
+  --glow:rgba(47,93,80,.10);
+  --solid-bg:#1d2723;
+  --solid-fg:#f2f1e9;
+  --sans:'Avenir Next','Segoe UI',system-ui,-apple-system,'Helvetica Neue',sans-serif;
+  --read:'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
+  --mono:ui-monospace,'SF Mono','Cascadia Mono','Roboto Mono',Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+
+[data-theme="dark"]{
+  --bg:#131816;
+  --bg-deep:#0d110f;
+  --panel:#1b221f;
+  --panel-2:#202924;
+  --paper:#222b26;
+  --ink:#e9ece3;
+  --muted:#a3afa7;
+  --faint:#7c8981;
+  --line:rgba(233,236,227,.15);
+  --line-soft:rgba(233,236,227,.075);
+  --accent:#8fbcae;
+  --accent-soft:rgba(143,188,174,.10);
+  --brass:#d0a25f;
+  --oxide:#d9856f;
+  --oxide-soft:rgba(217,133,111,.10);
+  --ok:#8fbcae;
+  --warn:#d0a25f;
+  --grid:rgba(143,188,174,.045);
+  --glow:rgba(143,188,174,.09);
+  --solid-bg:#e9ece3;
+  --solid-fg:#131816;
+  color-scheme:dark;
+}

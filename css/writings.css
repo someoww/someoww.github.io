@@ -1,0 +1,88 @@
+/* ------------------------------------------------------------------
+   Writings. A blank index, kept flat.
+   ------------------------------------------------------------------ */
+
+.w-hero{padding:clamp(56px,9vh,104px) clamp(20px,4vw,40px) 0}
+.w-hero h1{
+  margin:18px 0 0;font-family:var(--sans);font-weight:600;
+  font-size:clamp(2.8rem,7vw,5.6rem);line-height:.94;letter-spacing:-.055em;
+  text-wrap:balance;
+}
+.w-hero h1 em{font-style:normal;color:var(--accent)}
+.w-hero .lede{
+  margin:24px 0 0;max-width:54ch;font:400 clamp(.98rem,1.2vw,1.08rem)/1.75 var(--read);
+  color:var(--muted);text-wrap:pretty;
+}
+
+.w-grid{
+  display:grid;grid-template-columns:minmax(0,1.35fr) minmax(240px,.65fr);
+  gap:clamp(32px,5vw,64px);align-items:start;
+  padding:clamp(44px,7vh,72px) clamp(20px,4vw,40px) 0;
+}
+
+/* the index panel */
+.index-panel{
+  position:relative;overflow:hidden;
+  background:var(--panel);
+  border:1px solid var(--line);border-top:2px solid var(--accent);border-radius:2px;
+}
+.index-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:16px 22px;border-bottom:1px solid var(--line);
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.03em;color:var(--muted);
+}
+.index-head b{font-weight:500;color:var(--ink);letter-spacing:.04em}
+.index-body{
+  position:relative;min-height:clamp(320px,44vh,420px);
+  padding:clamp(32px,5vw,56px);
+  display:flex;flex-direction:column;justify-content:center;
+}
+.index-body .statement{
+  margin:0;max-width:30ch;
+  font:italic 400 clamp(1.45rem,3vw,2.05rem)/1.32 var(--read);letter-spacing:-.02em;
+  color:var(--ink);
+}
+.index-body .note{
+  margin:18px 0 0;max-width:42ch;
+  font:400 .9rem/1.75 var(--read);color:var(--muted);text-wrap:pretty;
+}
+.index-body .note a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line);transition:border-color .25s,color .25s}
+.index-body .note a:hover{color:var(--accent);border-color:var(--accent)}
+.index-foot{
+  display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px 20px;
+  padding:14px 22px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.03em;color:var(--faint);
+}
+
+/* aside */
+.w-aside{padding-top:6px}
+.w-aside h2{
+  margin:0 0 14px;font-family:var(--mono);font-weight:400;
+  font-size:.68rem;letter-spacing:.04em;color:var(--muted);
+}
+.link-list{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.link-list a{
+  display:block;padding:13px 0;border-bottom:1px solid var(--line);
+  text-decoration:none;font:400 .94rem/1.4 var(--read);color:var(--ink);
+  transition:color .25s ease;
+}
+.link-list a:hover{color:var(--accent)}
+
+.aside-note{
+  margin:26px 0 0;padding:16px 18px;
+  border-left:2px solid var(--brass);
+  background:var(--panel-2);
+  font:400 .84rem/1.72 var(--read);color:var(--muted);text-wrap:pretty;
+}
+.aside-note b{color:var(--ink);font-weight:600}
+
+@media (max-width:900px){
+  .w-grid{grid-template-columns:1fr;gap:38px}
+  .w-aside{max-width:520px}
+}
+@media (max-width:560px){
+  .index-head{padding:14px 18px}
+  .index-body{padding:30px 22px}
+  .index-foot{padding:13px 18px}
+  .w-hero h1{font-size:clamp(2.5rem,12vw,3.8rem)}
+}

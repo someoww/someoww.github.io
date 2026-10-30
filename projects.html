@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script src="js/theme.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#eef0ea">
+<meta name="description" content="supply_route, a causal simulator and dispatch-time model for supply corridors, by Muktadir Somio.">
+<meta property="og:title" content="Projects | Muktadir Somio">
+<meta property="og:description" content="A causal simulator and a dispatch-time model for supply corridors. Synthetic districts, real methodology.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%90%B1</text></svg>">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/projects.css">
+<title>Projects | Muktadir Somio</title>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <a class="mark" href="./" aria-label="Muktadir Somio, home">
+      <span class="seal" aria-hidden="true">MS</span>
+      <span class="mark-name">Muktadir Somio</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="./">Home</a>
+      <a href="projects.html" aria-current="page">Projects</a>
+      <a href="writings.html">Writings</a>
+      <a class="ext" href="https://github.com/someoww" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <button class="theme-toggle" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Switch to night mode"><span class="tt-knob" aria-hidden="true"></span></button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="cover wrap" aria-labelledby="projectTitle">
+    <div class="cover-grid">
+      <div class="cover-copy">
+        <p class="kicker">Prototype, Python, 2026</p>
+        <h1 id="projectTitle">supply<span class="u">_</span>route</h1>
+        <p class="tagline">Risk, before the truck leaves.</p>
+        <p class="lede">A causal simulator and a dispatch-time model for supply corridors in Bangladesh. The districts are synthetic. The methodology is not. The project also asks how far a prediction can be trusted when the question turns causal.</p>
+        <div class="cover-actions">
+          <a class="btn btn-solid" href="https://github.com/someoww/supply_route" target="_blank" rel="noopener noreferrer">Read the code</a>
+          <a class="btn btn-ghost" href="#method">How it works</a>
+        </div>
+        <p class="cover-foot">scikit-learn, 42 features, time-ordered validation</p>
+      </div>
+
+      <figure class="map-stage" id="mapStage">
+        <div class="map-grid" aria-hidden="true"></div>
+        <div class="map-scan" aria-hidden="true"></div>
+        <svg id="routeMap" viewBox="0 0 640 600" role="img" aria-labelledby="mapTitle mapDesc">
+          <title id="mapTitle">Synthetic district network</title>
+          <desc id="mapDesc">Thirty-one nodes connected by route lines, coloured by route condition: 23 normal, 7 degraded and 1 critical.</desc>
+        </svg>
+        <div class="map-hud">
+          <div class="hud-top">
+            <p class="hud-label"><b>synthetic district network</b>seed 42, 31 nodes</p>
+            <div class="legend" aria-hidden="true">
+              <span><i class="sw sw-ok"></i>normal 23</span>
+              <span><i class="sw sw-warn"></i>degraded 7</span>
+              <span><i class="sw sw-oxide"></i>critical 1</span>
+            </div>
+          </div>
+          <div class="hud-bottom">
+            <p class="map-hint" id="mapHint">Hover or tap a district</p>
+            <div class="readout" id="readout" aria-live="polite">
+              <span class="ro-id" id="roId">D-18</span>
+              <span class="ro-score"><b id="roScore">43</b><span>condition score</span></span>
+              <span class="ro-cls" id="roCls" data-cls="critical">critical</span>
+              <span class="ro-delay" id="roDelay">19.7 h delay</span>
+            </div>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="kpis wrap" aria-label="Project at a glance">
+    <div class="kpi"><b>93,000</b><span>simulated district-days</span></div>
+    <div class="kpi"><b>31</b><span>districts in the panel</span></div>
+    <div class="kpi"><b>42</b><span>dispatch-time features</span></div>
+    <div class="kpi"><b>5</b><span>interventions tested</span></div>
+  </section>
+
+  <section class="sec wrap" id="method">
+    <div class="sec-head">
+      <h2>One world, simulated. Then asked hard questions.</h2>
+      <p>Every row comes from an explicit structural causal model, so the true effect is known. The predictor sees only what is available at dispatch. The causal module then checks its answers against that truth.</p>
+    </div>
+    <ol class="pipeline">
+      <li class="step">
+        <span class="n">01</span>
+        <h3>Simulate</h3>
+        <p>Thirty-one districts over three thousand days. Weather, unrest, fuel and logistics follow an explicit graph, with confounding and persistence built in. One seed produces 93,000 rows.</p>
+      </li>
+      <li class="step">
+        <span class="n">02</span>
+        <h3>Predict</h3>
+        <p>A gradient-boosted model sees 42 columns known at dispatch. The newest 20% of days are held out behind a 30-day buffer, so autocorrelated weather cannot leak into the score.</p>
+      </li>
+      <li class="step">
+        <span class="n">03</span>
+        <h3>Interrogate</h3>
+        <p>Backdoor adjustment is compared with the simulator’s oracle. Naive comparisons miss by as much as a factor of three. Flipping an input inside the predictor erases the effect entirely.</p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="sec wrap" id="effects">
+    <div class="sec-head">
+      <h2>What a prediction cannot tell you.</h2>
+      <p>Five what-ifs, four ways of answering. Choose an estimator and see how far it lands from the simulated truth. Bars show effect size; the thin tick marks the oracle.</p>
+    </div>
+
+    <div class="causal" id="causal" data-est="oracle">
+      <div class="causal-head">
+        <p class="causal-title">Estimated effect<span>magnitude, synthetic units</span></p>
+        <div class="causal-tools">
+          <div class="seg" role="group" aria-label="Estimator">
+            <button type="button" data-est="oracle" aria-pressed="true">Oracle</button>
+            <button type="button" data-est="naive" aria-pressed="false">Naive</button>
+            <button type="button" data-est="backdoor" aria-pressed="false">Backdoor</button>
+            <button type="button" data-est="all" aria-pressed="false">All features</button>
+          </div>
+          <button class="copy-table" id="copyTable" type="button">Copy CSV</button>
+        </div>
+      </div>
+
+      <div class="causal-body">
+        <div class="row" data-oracle="-24.2" data-naive="-27.2" data-backdoor="-23.4" data-all="-0.2" data-max="27.2" data-decimals="1">
+          <div class="q"><b>Transport strike</b><span>condition score, on vs off</span></div>
+          <div class="track"><span class="bar" style="width:88.97%"></span><span class="tick" style="left:88.97%;opacity:0"></span></div>
+          <span class="val">−24.2</span>
+        </div>
+        <div class="row" data-oracle="-0.138" data-naive="-0.051" data-backdoor="-0.137" data-all="-0.088" data-max="0.138" data-decimals="3">
+          <div class="q"><b>State intervention</b><span>shortfall, on vs off</span></div>
+          <div class="track"><span class="bar" style="width:100%"></span><span class="tick" style="left:100%;opacity:0"></span></div>
+          <span class="val">−0.138</span>
+        </div>
+        <div class="row" data-oracle="-1.6" data-naive="-5.8" data-backdoor="-1.9" data-all="-0.3" data-max="5.8" data-decimals="1">
+          <div class="q"><b>Diesel +10 BDT/litre</b><span>condition score</span></div>
+          <div class="track"><span class="bar" style="width:27.59%"></span><span class="tick" style="left:27.59%;opacity:0"></span></div>
+          <span class="val">−1.6</span>
+        </div>
+        <div class="row" data-oracle="-6.5" data-naive="-7.5" data-backdoor="-6.3" data-all="-0.4" data-max="7.5" data-decimals="1">
+          <div class="q"><b>Rain +20 mm</b><span>condition score</span></div>
+          <div class="track"><span class="bar" style="width:86.67%"></span><span class="tick" style="left:86.67%;opacity:0"></span></div>
+          <span class="val">−6.5</span>
+        </div>
+        <div class="row" data-oracle="-0.58" data-naive="-1.76" data-backdoor="-0.51" data-all="-0.55" data-max="1.76" data-decimals="2">
+          <div class="q"><b>Cold chain +0.1</b><span>spoilage %</span></div>
+          <div class="track"><span class="bar" style="width:32.95%"></span><span class="tick" style="left:32.95%;opacity:0"></span></div>
+          <span class="val">−0.58</span>
+        </div>
+      </div>
+
+      <p class="reading" id="reading" aria-live="polite"><b>The oracle.</b> The same simulated world, re-run with one input changed and every other noise stream held still. This is the number the other three are trying to recover.</p>
+    </div>
+  </section>
+
+  <section class="sec wrap" id="specs">
+    <div class="specs">
+      <div class="specs-intro">
+        <h2>The fine print.</h2>
+        <p>The methods are real. The world is not. Coefficients encode assumptions, not measurements.</p>
+      </div>
+      <dl class="spec-list">
+        <div class="spec"><dt>Targets</dt><dd>condition_class (normal, degraded, critical), condition_score (0 to 100), delay_hours</dd></div>
+        <div class="spec"><dt>Validation</dt><dd>Newest 20% of days held out, with a 30-day buffer; expanding-window cross-validation for the rest</dd></div>
+        <div class="spec"><dt>Metrics</dt><dd>Macro-F1, log loss and per-class recall; MAE, RMSE and R² for regression</dd></div>
+        <div class="spec"><dt>Model</dt><dd>Gradient boosting, with rounds chosen on the newest 15% of each training window</dd></div>
+        <div class="spec"><dt>Stack</dt><dd>Python, numpy, pandas, scipy, scikit-learn 1.4 or newer</dd></div>
+        <div class="spec"><dt>Scope</dt><dd>31 synthetic districts, one product per route, same-day effects only</dd></div>
+      </dl>
+    </div>
+    <aside class="limits"><b>Known limits.</b> No spatial spillover, no route network, no lagged effects. Class balance sits near 75 / 21 / 4, so the critical class is rare. None of this describes the real Bangladesh. It asks only whether the methods hold up in a world where the truth is visible.</aside>
+  </section>
+
+  <section class="sec wrap" id="next">
+    <div class="sec-head">
+      <h1>And one more, still forming.</h1>
+    </div>
+    <article class="next-card">
+      <span class="next-tag">In Progress</span>
+      <h3>Project </h3>
+      <p>Misinformation spreads fast, hatred campaigns hurt democracy and human rights. Building a system that efficiently monitors, and prevents the spread from happening.</p>
+      <span class="next-status">Looking forward to sharing prototypes soon</span>
+    </article>
+  </section>
+
+  <section class="sec wrap outro">
+    <div>
+      <h2>That is the work so far.</h2>
+      <p>If you want the longer version, the code and the README are on GitHub.</p>
+    </div>
+    <div class="outro-links">
+      <a class="btn btn-solid" href="https://github.com/someoww/supply_route" target="_blank" rel="noopener noreferrer">Open supply_route</a>
+      <a class="btn btn-ghost" href="mailto:somiomuktadir@gmail.com">Ask me about it</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <p>Dhaka, Bangladesh <span class="mono" id="clock">--:--</span></p>
+    <p>Built by hand. No images, no trackers, no fonts fetched.</p>
+    <p class="foot-contact"><a href="mailto:somiomuktadir@gmail.com">somiomuktadir@gmail.com</a><button class="copy" type="button" data-copy="somiomuktadir@gmail.com" aria-label="Copy email address">copy</button></p>
+  </div>
+</footer>
+
+<script src="js/site.js"></script>
+<script src="js/projects.js"></script>
+</body>
+</html>
