@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script src="js/theme.js"></script>
+<meta name="color-scheme" content="light dark">
+<meta name="text-scale" content="scale">
+<script src="js/theme.js" blocking="render"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#e3e6de">
 <meta name="description" content="Muktadir Somio, applied statistics and data science student at the University of Dhaka.">
@@ -11,6 +13,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%90%B1</text></svg>">
 <link rel="stylesheet" href="css/tokens.css">
 <link rel="stylesheet" href="css/home.css">
+<link rel="expect" href="#stage" blocking="render">
 <title>Muktadir Somio</title>
 <noscript><style>
   .settle{opacity:1!important;pointer-events:auto!important}
@@ -21,11 +24,11 @@
 </style></noscript>
 </head>
 <body>
-<div class="stage">
+<main class="stage" id="stage">
   <div class="floor" aria-hidden="true"><div class="beam"></div></div>
   <div class="rug" aria-hidden="true"></div>
 
-  <h1 class="frame-wrap"><a class="frame" id="brand" href="./" title="Replay the welcome" aria-label="Muktadir Somio, replay the welcome"><b>Muktadir Somio</b><small>applied statistics and data science</small></a></h1>
+  <h1 class="frame-wrap"><a class="frame" id="brand" href="./" title="Replay the welcome"><b>Muktadir Somio</b><small>applied statistics and data science</small><span class="sr-only"> (replay the welcome)</span></a></h1>
 
   <div class="wall-left" aria-hidden="true">
     <div class="win"><div class="sky"><div class="stars"></div><div class="sun"></div><div class="moon"></div><div class="cloud"></div></div><div class="win-sill"></div></div>
@@ -33,25 +36,37 @@
 
   <div class="wall-right">
     <div class="shelf">
-      <button class="thing books" type="button" aria-label="Books: Python and R" data-tip="Python is my language of choice. R runs the curriculum."><span class="book">Py</span><span class="book">R</span><span class="book">∑</span></button>
-      <button class="thing" type="button" aria-label="Chess knight" data-tip="Chess sharpens me."><span class="piece" aria-hidden="true">♞&#xFE0E;</span></button>
-      <button class="thing compass" type="button" aria-label="Compass" data-tip="For the next idea.">
-        <svg viewBox="0 0 40 40" aria-hidden="true">
-          <circle cx="20" cy="20" r="15.5" fill="none" stroke="currentColor" stroke-opacity=".32" stroke-width="1.5"/>
-          <circle cx="20" cy="20" r="11" fill="none" stroke="currentColor" stroke-opacity=".16" stroke-width="1"/>
-          <path d="M20 5.8 L23.7 18.2 L20 20 L16.3 18.2 Z" fill="var(--accent)"/>
-          <path d="M20 34.2 L16.3 21.8 L20 20 L23.7 21.8 Z" fill="currentColor" opacity=".32"/>
-          <circle cx="20" cy="20" r="1.7" fill="var(--accent)"/>
-        </svg>
-      </button>
-      <button class="thing plant" type="button" aria-label="Plant" data-tip="Ideas take time.">
-        <svg viewBox="0 0 30 46" aria-hidden="true"><path d="M15 28C15 18 9 12 3 10c0 9 5 15 12 18Z" fill="#5f8f5a"/><path d="M15 28c0-11 6-17 12-19 0 10-5 16-12 19Z" fill="#7aa86f"/><path d="M15 28V8" stroke="#5f8f5a" stroke-width="2" stroke-linecap="round"/><path d="M6 28h18l-2 16H8Z" fill="var(--oxide)"/><rect x="5" y="26" width="20" height="4" rx="1.5" fill="var(--oxide)"/></svg>
-      </button>
+      <div class="shelf-item">
+        <button class="thing books" type="button" aria-label="Books: Python and R" aria-describedby="tip-books" interestfor="tip-books" popovertarget="tip-books" popovertargetaction="show"><span class="book">Py</span><span class="book">R</span><span class="book">∑</span></button>
+        <div class="tip" id="tip-books" popover="hint" role="tooltip">Python is my language of choice. R runs the curriculum.</div>
+      </div>
+      <div class="shelf-item">
+        <button class="thing" type="button" aria-label="Chess knight" aria-describedby="tip-chess" interestfor="tip-chess" popovertarget="tip-chess" popovertargetaction="show"><span class="piece" aria-hidden="true">♞&#xFE0E;</span></button>
+        <div class="tip" id="tip-chess" popover="hint" role="tooltip">Chess sharpens me.</div>
+      </div>
+      <div class="shelf-item">
+        <button class="thing compass" type="button" aria-label="Compass" aria-describedby="tip-compass" interestfor="tip-compass" popovertarget="tip-compass" popovertargetaction="show">
+          <svg viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="20" cy="20" r="15.5" fill="none" stroke="currentColor" stroke-opacity=".32" stroke-width="1.5"/>
+            <circle cx="20" cy="20" r="11" fill="none" stroke="currentColor" stroke-opacity=".16" stroke-width="1"/>
+            <path d="M20 5.8 L23.7 18.2 L20 20 L16.3 18.2 Z" fill="var(--accent)"/>
+            <path d="M20 34.2 L16.3 21.8 L20 20 L23.7 21.8 Z" fill="currentColor" opacity=".32"/>
+            <circle cx="20" cy="20" r="1.7" fill="var(--accent)"/>
+          </svg>
+        </button>
+        <div class="tip" id="tip-compass" popover="hint" role="tooltip">For the next idea.</div>
+      </div>
+      <div class="shelf-item">
+        <button class="thing plant" type="button" aria-label="Plant" aria-describedby="tip-plant" interestfor="tip-plant" popovertarget="tip-plant" popovertargetaction="show">
+          <svg viewBox="0 0 30 46" aria-hidden="true"><path d="M15 28C15 18 9 12 3 10c0 9 5 15 12 18Z" fill="#5f8f5a"/><path d="M15 28c0-11 6-17 12-19 0 10-5 16-12 19Z" fill="#7aa86f"/><path d="M15 28V8" stroke="#5f8f5a" stroke-width="2" stroke-linecap="round"/><path d="M6 28h18l-2 16H8Z" fill="var(--oxide)"/><rect x="5" y="26" width="20" height="4" rx="1.5" fill="var(--oxide)"/></svg>
+        </button>
+        <div class="tip" id="tip-plant" popover="hint" role="tooltip">Ideas take time.</div>
+      </div>
     </div>
-    <button class="note" id="note" type="button"><span class="nk">palabra del día</span><span class="nw" id="noteWord"></span><span class="nm" id="noteMean"></span></button>
+    <button class="note" id="note" type="button"><span class="nk" lang="es">palabra del día</span><span class="nw" id="noteWord" lang="es"></span><span class="nm" id="noteMean"></span></button>
   </div>
 
-  <button class="switch settle" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Light switch: dark mode" title="Light switch"><span class="rocker"></span></button>
+  <button class="switch settle" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Dark mode" title="Light switch"><span class="rocker"></span></button>
 
   <div class="dim" aria-hidden="true"></div>
 
@@ -124,7 +139,7 @@
       <b>Email</b><small>say hi</small>
     </a>
   </nav>
-</div>
+</main>
 
 <button class="skip" id="skip" type="button">Skip intro</button>
 <footer class="hint settle" id="hint"><span class="hint-full">Applied Statistics and Data Science at IASDS, University of Dhaka</span><span class="hint-short" aria-hidden="true">IASDS, University of Dhaka</span></footer>

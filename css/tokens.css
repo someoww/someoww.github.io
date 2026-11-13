@@ -1,53 +1,203 @@
 /* Shared design tokens. The room and the pages use one palette. */
+@view-transition {
+  navigation: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
 :root{
-  --bg:#eef0ea;
-  --bg-deep:#e4e7df;
-  --panel:#f7f7f1;
-  --panel-2:#eef0e8;
-  --paper:#f4f3ea;
-  --ink:#1d2723;
-  --muted:#5d6a63;
-  --faint:#87938b;
-  --line:rgba(29,39,35,.16);
-  --line-soft:rgba(29,39,35,.08);
-  --accent:#2f5d50;
-  --accent-soft:rgba(47,93,80,.10);
-  --brass:#8f6a35;
-  --oxide:#9a3f2f;
-  --oxide-soft:rgba(154,63,47,.08);
-  --ok:#3e6f63;
-  --warn:#8f6a35;
-  --grid:rgba(47,93,80,.05);
-  --glow:rgba(47,93,80,.10);
-  --solid-bg:#1d2723;
-  --solid-fg:#f2f1e9;
+  color-scheme:light dark;
+
+  --bg-light:#eef0ea;
+  --bg-dark:#131816;
+  --bg-deep-light:#e4e7df;
+  --bg-deep-dark:#0d110f;
+  --panel-light:#f7f7f1;
+  --panel-dark:#1b221f;
+  --panel-2-light:#eef0e8;
+  --panel-2-dark:#202924;
+  --paper-light:#f4f3ea;
+  --paper-dark:#222b26;
+  --ink-light:#1d2723;
+  --ink-dark:#e9ece3;
+  --muted-light:#5d6a63;
+  --muted-dark:#a3afa7;
+  --faint-light:#87938b;
+  --faint-dark:#7c8981;
+  --line-light:rgba(29,39,35,.16);
+  --line-dark:rgba(233,236,227,.15);
+  --line-soft-light:rgba(29,39,35,.08);
+  --line-soft-dark:rgba(233,236,227,.075);
+  --accent-light:#2f5d50;
+  --accent-dark:#8fbcae;
+  --accent-soft-light:rgba(47,93,80,.10);
+  --accent-soft-dark:rgba(143,188,174,.10);
+  --brass-light:#8f6a35;
+  --brass-dark:#d0a25f;
+  --oxide-light:#9a3f2f;
+  --oxide-dark:#d9856f;
+  --oxide-soft-light:rgba(154,63,47,.08);
+  --oxide-soft-dark:rgba(217,133,111,.10);
+  --ok-light:#3e6f63;
+  --ok-dark:#8fbcae;
+  --warn-light:#8f6a35;
+  --warn-dark:#d0a25f;
+  --grid-light:rgba(47,93,80,.05);
+  --grid-dark:rgba(143,188,174,.045);
+  --glow-light:rgba(47,93,80,.10);
+  --glow-dark:rgba(143,188,174,.09);
+  --solid-bg-light:#1d2723;
+  --solid-bg-dark:#e9ece3;
+  --solid-fg-light:#f2f1e9;
+  --solid-fg-dark:#131816;
+
+  /* Fallback tokens for browsers without light-dark() */
+  --bg:var(--bg-light);
+  --bg-deep:var(--bg-deep-light);
+  --panel:var(--panel-light);
+  --panel-2:var(--panel-2-light);
+  --paper:var(--paper-light);
+  --ink:var(--ink-light);
+  --muted:var(--muted-light);
+  --faint:var(--faint-light);
+  --line:var(--line-light);
+  --line-soft:var(--line-soft-light);
+  --accent:var(--accent-light);
+  --accent-soft:var(--accent-soft-light);
+  --brass:var(--brass-light);
+  --oxide:var(--oxide-light);
+  --oxide-soft:var(--oxide-soft-light);
+  --ok:var(--ok-light);
+  --warn:var(--warn-light);
+  --grid:var(--grid-light);
+  --glow:var(--glow-light);
+  --solid-bg:var(--solid-bg-light);
+  --solid-fg:var(--solid-fg-light);
+
   --sans:'Avenir Next','Segoe UI',system-ui,-apple-system,'Helvetica Neue',sans-serif;
   --read:'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
   --mono:ui-monospace,'SF Mono','Cascadia Mono','Roboto Mono',Menlo,Consolas,monospace;
+  --in-oklab: ;
+
+  accent-color:var(--accent);
+  scrollbar-color:var(--muted) var(--bg-deep);
+}
+
+:root[data-theme="light"],
+:root:has(> head > meta[name="color-scheme"][content="light"]){
   color-scheme:light;
 }
 
-[data-theme="dark"]{
-  --bg:#131816;
-  --bg-deep:#0d110f;
-  --panel:#1b221f;
-  --panel-2:#202924;
-  --paper:#222b26;
-  --ink:#e9ece3;
-  --muted:#a3afa7;
-  --faint:#7c8981;
-  --line:rgba(233,236,227,.15);
-  --line-soft:rgba(233,236,227,.075);
-  --accent:#8fbcae;
-  --accent-soft:rgba(143,188,174,.10);
-  --brass:#d0a25f;
-  --oxide:#d9856f;
-  --oxide-soft:rgba(217,133,111,.10);
-  --ok:#8fbcae;
-  --warn:#d0a25f;
-  --grid:rgba(143,188,174,.045);
-  --glow:rgba(143,188,174,.09);
-  --solid-bg:#e9ece3;
-  --solid-fg:#131816;
+:root[data-theme="dark"],
+:root:has(> head > meta[name="color-scheme"][content="dark"]){
   color-scheme:dark;
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:var(--bg-dark);
+    --bg-deep:var(--bg-deep-dark);
+    --panel:var(--panel-dark);
+    --panel-2:var(--panel-2-dark);
+    --paper:var(--paper-dark);
+    --ink:var(--ink-dark);
+    --muted:var(--muted-dark);
+    --faint:var(--faint-dark);
+    --line:var(--line-dark);
+    --line-soft:var(--line-soft-dark);
+    --accent:var(--accent-dark);
+    --accent-soft:var(--accent-soft-dark);
+    --brass:var(--brass-dark);
+    --oxide:var(--oxide-dark);
+    --oxide-soft:var(--oxide-soft-dark);
+    --ok:var(--ok-dark);
+    --warn:var(--warn-dark);
+    --grid:var(--grid-dark);
+    --glow:var(--glow-dark);
+    --solid-bg:var(--solid-bg-dark);
+    --solid-fg:var(--solid-fg-dark);
+  }
+}
+
+:root[data-theme="dark"]{
+  --bg:var(--bg-dark);
+  --bg-deep:var(--bg-deep-dark);
+  --panel:var(--panel-dark);
+  --panel-2:var(--panel-2-dark);
+  --paper:var(--paper-dark);
+  --ink:var(--ink-dark);
+  --muted:var(--muted-dark);
+  --faint:var(--faint-dark);
+  --line:var(--line-dark);
+  --line-soft:var(--line-soft-dark);
+  --accent:var(--accent-dark);
+  --accent-soft:var(--accent-soft-dark);
+  --brass:var(--brass-dark);
+  --oxide:var(--oxide-dark);
+  --oxide-soft:var(--oxide-soft-dark);
+  --ok:var(--ok-dark);
+  --warn:var(--warn-dark);
+  --grid:var(--grid-dark);
+  --glow:var(--glow-dark);
+  --solid-bg:var(--solid-bg-dark);
+  --solid-fg:var(--solid-fg-dark);
+}
+
+@supports (color: light-dark(white, black)){
+  :root{
+    --bg:light-dark(var(--bg-light),var(--bg-dark));
+    --bg-deep:light-dark(var(--bg-deep-light),var(--bg-deep-dark));
+    --panel:light-dark(var(--panel-light),var(--panel-dark));
+    --panel-2:light-dark(var(--panel-2-light),var(--panel-2-dark));
+    --paper:light-dark(var(--paper-light),var(--paper-dark));
+    --ink:light-dark(var(--ink-light),var(--ink-dark));
+    --muted:light-dark(var(--muted-light),var(--muted-dark));
+    --faint:light-dark(var(--faint-light),var(--faint-dark));
+    --line:light-dark(var(--line-light),var(--line-dark));
+    --line-soft:light-dark(var(--line-soft-light),var(--line-soft-dark));
+    --accent:light-dark(var(--accent-light),var(--accent-dark));
+    --accent-soft:light-dark(var(--accent-soft-light),var(--accent-soft-dark));
+    --brass:light-dark(var(--brass-light),var(--brass-dark));
+    --oxide:light-dark(var(--oxide-light),var(--oxide-dark));
+    --oxide-soft:light-dark(var(--oxide-soft-light),var(--oxide-soft-dark));
+    --ok:light-dark(var(--ok-light),var(--ok-dark));
+    --warn:light-dark(var(--warn-light),var(--warn-dark));
+    --grid:light-dark(var(--grid-light),var(--grid-dark));
+    --glow:light-dark(var(--glow-light),var(--glow-dark));
+    --solid-bg:light-dark(var(--solid-bg-light),var(--solid-bg-dark));
+    --solid-fg:light-dark(var(--solid-fg-light),var(--solid-fg-dark));
+  }
+}
+
+@supports (background: linear-gradient(in oklab, white, black)){
+  :root{
+    --in-oklab:in oklab;
+  }
+}
+
+@media (forced-colors: active){
+  :root{
+    --bg:Canvas;
+    --bg-deep:Canvas;
+    --panel:Canvas;
+    --panel-2:Canvas;
+    --paper:Canvas;
+    --ink:CanvasText;
+    --muted:GrayText;
+    --faint:GrayText;
+    --line:CanvasText;
+    --line-soft:GrayText;
+    --accent:Highlight;
+    --accent-soft:Canvas;
+    --brass:Highlight;
+    --oxide:Highlight;
+    --oxide-soft:Canvas;
+    --ok:Highlight;
+    --warn:Highlight;
+    --solid-bg:ButtonFace;
+    --solid-fg:ButtonText;
+  }
 }

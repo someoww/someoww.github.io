@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script src="js/theme.js"></script>
+<meta name="color-scheme" content="light dark">
+<meta name="text-scale" content="scale">
+<script src="js/theme.js" blocking="render"></script>
+<link rel="expect" href="#writingsTitle" blocking="render">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#eef0ea">
 <meta name="description" content="Writings by Muktadir Somio. Essays will appear here when they are ready.">
@@ -29,12 +32,12 @@
       <a href="projects.html">Projects</a>
       <a href="writings.html" aria-current="page">Writings</a>
       <a class="ext" href="https://github.com/someoww" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <button class="theme-toggle" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Switch to night mode"><span class="tt-knob" aria-hidden="true"></span></button>
+      <button class="theme-toggle" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="tt-knob" aria-hidden="true"></span></button>
     </nav>
   </div>
 </header>
 
-<main id="main">
+<main id="main" tabindex="-1">
 
   <section class="w-hero wrap" aria-labelledby="writingsTitle">
     <p class="kicker">Writings</p>
@@ -74,9 +77,9 @@
 
 <footer class="foot">
   <div class="foot-inner">
-    <p>Dhaka, Bangladesh <span class="mono" id="clock">--:--</span></p>
+    <p>Dhaka, Bangladesh <time class="mono" id="clock">--:--</time></p>
     <p>Built by hand. No images, no trackers, no fonts fetched.</p>
-    <p class="foot-contact"><a href="mailto:somiomuktadir@gmail.com">somiomuktadir@gmail.com</a><button class="copy" type="button" data-copy="somiomuktadir@gmail.com" aria-label="Copy email address">copy</button></p>
+    <p class="foot-contact"><a id="emailLink" href="mailto:somiomuktadir@gmail.com">somiomuktadir@gmail.com</a><button class="copy" type="button" command="--copy" commandfor="emailLink" data-copy="somiomuktadir@gmail.com" aria-label="Copy email address">copy</button><span class="visually-hidden" role="status"></span></p>
   </div>
 </footer>
 

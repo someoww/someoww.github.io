@@ -1,11 +1,13 @@
 /* Homepage room: intro, cat, light switch, Spanish note, shelf tooltips. */
 (function(){
   var root=document.documentElement, $=function(id){return document.getElementById(id);};
-  var stage=document.querySelector('.stage'), bubble=$('bubble'), typed=$('typed'), ghost=$('ghost'), typed2=$('typed2'), ghost2=$('ghost2'), line2=$('line2'), cursor=$('cursor'),
+  var stage=$('stage'), bubble=$('bubble'), typed=$('typed'), ghost=$('ghost'), typed2=$('typed2'), ghost2=$('ghost2'), line2=$('line2'), cursor=$('cursor'),
       cat=$('cat'), look=$('look'), skipBtn=$('skip'), themeToggle=$('themeToggle'), note=$('note'), noteWord=$('noteWord'), noteMean=$('noteMean'),
-      metaTheme=document.querySelector('meta[name="theme-color"]');
+      metaTheme=document.querySelector('meta[name="theme-color"]'),
+      metaScheme=document.querySelector('meta[name="color-scheme"]');
   var intro=typed.textContent.trim(), outro=typed2.textContent.trim();
   var reduceMotion=window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mqlScheme=window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
   var timers=[], started=false, skipped=false, finishing=false, interactive=false;
   function later(fn,ms){var id=setTimeout(fn,ms);timers.push(id);return id;}
 
@@ -14,17 +16,51 @@
   // Typed text + invisible remainder keeps the bubble's final size and line breaks from the first character.
   typed.textContent=''; ghost.textContent=intro; typed2.textContent=''; ghost2.textContent=outro;
 
-  /* Light switch = theme. First visit follows the local clock; the choice sticks. */
+  /* Light switch = theme. First visit follows system/clock; manual override sticks. */
   var COLORS={light:'#e3e6de',dark:'#131816'};
-  function applyTheme(t){
-    root.setAttribute('data-theme',t); themeToggle.setAttribute('aria-checked',t==='dark');
-    themeToggle.setAttribute('aria-label','Light switch: '+(t==='dark'?'night':'day')+' mode');
-    if(metaTheme)metaTheme.setAttribute('content',COLORS[t]);
+  function systemTheme(){
+    if(mqlScheme) return mqlScheme.matches?'dark':'light';
+    var hour=new Date().getHours();
+    return (hour>=6&&hour<18)?'light':'dark';
   }
-  applyTheme(root.getAttribute('data-theme')||'light');
+  function applyTheme(t,schemeContent){
+    root.setAttribute('data-theme',t);
+    themeToggle.setAttribute('aria-label','Dark mode');
+    themeToggle.setAttribute('aria-checked',t==='dark'?'true':'false');
+    if(metaTheme)metaTheme.setAttribute('content',COLORS[t]);
+    if(metaScheme&&schemeContent)metaScheme.setAttribute('content',schemeContent);
+  }
+  var initialSaved=null;
+  try{initialSaved=localStorage.getItem('ms-theme');}catch(e){}
+  var initialHasOverride=(initialSaved==='light'||initialSaved==='dark');
+  applyTheme(root.getAttribute('data-theme')||'light',initialHasOverride?initialSaved:'light dark');
   themeToggle.addEventListener('click',function(){
-    var next=root.getAttribute('data-theme')==='dark'?'light':'dark'; applyTheme(next);
-    try{localStorage.setItem('ms-theme',next);}catch(e){}
+    var next=root.getAttribute('data-theme')==='dark'?'light':'dark';
+    var sys=systemTheme();
+    if(next===sys){
+      applyTheme(next,'light dark');
+      try{localStorage.removeItem('ms-theme');}catch(e){}
+    }else{
+      applyTheme(next,next);
+      try{localStorage.setItem('ms-theme',next);}catch(e){}
+    }
+  });
+  if(mqlScheme){
+    var onSchemeChange=function(){
+      var saved=null;
+      try{saved=localStorage.getItem('ms-theme');}catch(e){}
+      if(saved!=='light'&&saved!=='dark'){applyTheme(systemTheme(),'light dark');}
+    };
+    if(mqlScheme.addEventListener)mqlScheme.addEventListener('change',onSchemeChange);
+    else if(mqlScheme.addListener)mqlScheme.addListener(onSchemeChange);
+  }
+  window.addEventListener('storage',function(e){
+    if(!e||e.key==='ms-theme'||e.key===null){
+      var saved=null;
+      try{saved=localStorage.getItem('ms-theme');}catch(e){}
+      var hasOverride=(saved==='light'||saved==='dark');
+      applyTheme(hasOverride?saved:systemTheme(),hasOverride?saved:'light dark');
+    }
   });
 
   /* Sticky note: a Spanish word, picked by day, cycled on click */
@@ -34,15 +70,76 @@
   showWord();
   note.addEventListener('click',function(){wi=(wi+1)%WORDS.length;showWord();note.classList.remove('flip');void note.offsetWidth;note.classList.add('flip');});
 
-  /* Shelf tooltips (hover, focus, or tap) */
-  var things=Array.prototype.slice.call(document.querySelectorAll('.thing[data-tip]')), tipTimer;
-  things.forEach(function(el){
-    var tip=document.createElement('span'); tip.className='tip'; tip.setAttribute('aria-hidden','true'); tip.textContent=el.getAttribute('data-tip'); el.appendChild(tip);
-    el.addEventListener('click',function(){
-      things.forEach(function(o){if(o!==el)o.classList.remove('tip-on');});
-      el.classList.add('tip-on'); clearTimeout(tipTimer); tipTimer=setTimeout(function(){el.classList.remove('tip-on');},2600);
+  /* Shelf tooltips (popover="hint" + interestfor, with WCAG 1.4.13 fallback) */
+  var hasPopover=Object.hasOwn(HTMLElement.prototype,'popover');
+  var hasInterest=('interestForElement' in HTMLButtonElement.prototype);
+  var hasAnchor=window.CSS && CSS.supports('position-area: block-start');
+  var triggers=Array.prototype.slice.call(document.querySelectorAll('.thing[interestfor]'));
+
+  if(hasPopover){
+    var probe=document.createElement('div');
+    probe.popover='hint';
+    if(probe.popover!=='hint'){
+      document.addEventListener('beforetoggle',function(e){
+        var t=e.target;
+        if(t && t.getAttribute('popover')==='hint' && document.querySelector('[popovertarget="'+t.id+'"]')){
+          if(e.newState==='open') t.popover='auto';
+        }
+      },true);
+    }
+    if(!hasAnchor){
+      document.addEventListener('toggle',function(e){
+        var t=e.target;
+        if(!t || !t.classList || !t.classList.contains('tip') || e.newState!=='open') return;
+        var btn=document.querySelector('[interestfor="'+t.id+'"]');
+        if(!btn) return;
+        var br=btn.getBoundingClientRect(), tr=t.getBoundingClientRect();
+        var top=Math.max(8,br.top-tr.height-10);
+        var left=Math.max(8,Math.min(window.innerWidth-tr.width-8,br.right-tr.width));
+        t.style.top=top+'px';
+        t.style.left=left+'px';
+      },true);
+    }
+  }
+
+  if(!hasInterest){
+    var activeTip=null, closeTimer=0;
+    function hideTip(tip){
+      if(!tip) return;
+      if(hasPopover && tip.matches(':popover-open')) tip.hidePopover();
+      tip.classList.remove('tip-open');
+      if(activeTip===tip) activeTip=null;
+    }
+    function showTip(tip,trigger){
+      clearTimeout(closeTimer);
+      if(activeTip && activeTip!==tip) hideTip(activeTip);
+      activeTip=tip;
+      if(hasPopover){
+        if(!tip.matches(':popover-open')) tip.showPopover({source:trigger});
+      }else{
+        tip.classList.add('tip-open');
+      }
+    }
+    function scheduleHide(tip){
+      clearTimeout(closeTimer);
+      closeTimer=setTimeout(function(){hideTip(tip);},160);
+    }
+    triggers.forEach(function(btn){
+      var tip=$(btn.getAttribute('interestfor'));
+      if(!tip) return;
+      btn.addEventListener('pointerenter',function(e){if(e.pointerType!=='touch')showTip(tip,btn);});
+      btn.addEventListener('pointerleave',function(e){if(e.pointerType!=='touch')scheduleHide(tip);});
+      tip.addEventListener('pointerenter',function(){clearTimeout(closeTimer);});
+      tip.addEventListener('pointerleave',function(){scheduleHide(tip);});
+      btn.addEventListener('focus',function(){showTip(tip,btn);});
+      btn.addEventListener('blur',function(){scheduleHide(tip);});
+      btn.addEventListener('click',function(){showTip(tip,btn);});
     });
-  });
+    document.addEventListener('keydown',function(e){if(e.key==='Escape' && activeTip)hideTip(activeTip);});
+    document.addEventListener('click',function(e){
+      if(activeTip && !e.target.closest('.shelf-item')) hideTip(activeTip);
+    });
+  }
 
   /* Layout: size the cat to the room (mirrors --cat-b and the frame height in CSS) */
   function fit(){
@@ -118,7 +215,13 @@
     stage.appendChild(f); setTimeout(function(){f.remove();},1400);
   }
   cat.addEventListener('click',pet);
-  cat.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pet();}});
+  cat.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){pet();}
+    else if(e.key===' '){e.preventDefault();}
+  });
+  cat.addEventListener('keyup',function(e){
+    if(e.key===' '){pet();}
+  });
 
   /* Begin once fonts/layout are ready so nothing reflows mid-intro */
   function begin(){

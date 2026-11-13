@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<script src="js/theme.js"></script>
+<meta name="color-scheme" content="light dark">
+<meta name="text-scale" content="scale">
+<script src="js/theme.js" blocking="render"></script>
+<link rel="expect" href="#projectTitle" blocking="render">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#eef0ea">
 <meta name="description" content="supply_route, a causal simulator and dispatch-time model for supply corridors, by Muktadir Somio.">
@@ -29,12 +32,12 @@
       <a href="projects.html" aria-current="page">Projects</a>
       <a href="writings.html">Writings</a>
       <a class="ext" href="https://github.com/someoww" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <button class="theme-toggle" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Switch to night mode"><span class="tt-knob" aria-hidden="true"></span></button>
+      <button class="theme-toggle" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="tt-knob" aria-hidden="true"></span></button>
     </nav>
   </div>
 </header>
 
-<main id="main">
+<main id="main" tabindex="-1">
 
   <section class="cover wrap" aria-labelledby="projectTitle">
     <div class="cover-grid">
@@ -92,7 +95,7 @@
       <h2>One world, simulated. Then asked hard questions.</h2>
       <p>Every row comes from an explicit structural causal model, so the true effect is known. The predictor sees only what is available at dispatch. The causal module then checks its answers against that truth.</p>
     </div>
-    <ol class="pipeline">
+    <ol class="pipeline" role="list">
       <li class="step">
         <span class="n">01</span>
         <h3>Simulate</h3>
@@ -127,7 +130,7 @@
             <button type="button" data-est="backdoor" aria-pressed="false">Backdoor</button>
             <button type="button" data-est="all" aria-pressed="false">All features</button>
           </div>
-          <button class="copy-table" id="copyTable" type="button">Copy CSV</button>
+          <button class="copy-table" id="copyTable" type="button">Copy CSV</button><span class="visually-hidden" role="status"></span>
         </div>
       </div>
 
@@ -183,11 +186,11 @@
 
   <section class="sec wrap" id="next">
     <div class="sec-head">
-      <h1>And one more, still forming.</h1>
+      <h2>And one more, still forming.</h2>
     </div>
     <article class="next-card">
       <span class="next-tag">In Progress</span>
-      <h3>Project </h3>
+      <h3>Project</h3>
       <p>Misinformation spreads fast, hatred campaigns hurt democracy and human rights. Building a system that efficiently monitors, and prevents the spread from happening.</p>
       <span class="next-status">Looking forward to sharing prototypes soon</span>
     </article>
@@ -208,9 +211,9 @@
 
 <footer class="foot">
   <div class="foot-inner">
-    <p>Dhaka, Bangladesh <span class="mono" id="clock">--:--</span></p>
+    <p>Dhaka, Bangladesh <time class="mono" id="clock">--:--</time></p>
     <p>Built by hand. No images, no trackers, no fonts fetched.</p>
-    <p class="foot-contact"><a href="mailto:somiomuktadir@gmail.com">somiomuktadir@gmail.com</a><button class="copy" type="button" data-copy="somiomuktadir@gmail.com" aria-label="Copy email address">copy</button></p>
+    <p class="foot-contact"><a id="emailLink" href="mailto:somiomuktadir@gmail.com">somiomuktadir@gmail.com</a><button class="copy" type="button" command="--copy" commandfor="emailLink" data-copy="somiomuktadir@gmail.com" aria-label="Copy email address">copy</button><span class="visually-hidden" role="status"></span></p>
   </div>
 </footer>
 

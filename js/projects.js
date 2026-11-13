@@ -240,10 +240,13 @@
         else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = (index - 1 + N) % N;
         else if (event.key === 'Home') nextIndex = 0;
         else if (event.key === 'End') nextIndex = N - 1;
-        else if (event.key === 'Enter' || event.key === ' ') {
+        else if (event.key === 'Enter') {
           event.preventDefault();
           pinned = node;
           paintReadout(node);
+          return;
+        } else if (event.key === ' ') {
+          event.preventDefault();
           return;
         }
         if (nextIndex === null) return;
@@ -252,6 +255,13 @@
           el.setAttribute('tabindex', n === nextIndex ? '0' : '-1');
         });
         nodeEls[nextIndex].focus();
+      });
+      g.addEventListener('keyup', function (event) {
+        if (event.key === ' ') {
+          event.preventDefault();
+          pinned = node;
+          paintReadout(node);
+        }
       });
 
       nodeEls.push(g);
@@ -306,17 +316,27 @@
       rows.forEach(function (row) {
         var value = Math.abs(parseFloat(row.getAttribute('data-' + estimator)));
         var max = parseFloat(row.getAttribute('data-max'));
-        var oracle = Math.abs(parseFloat(row.getAttribute('data-oracle')));
+        var oracleRaw = parseFloat(row.getAttribute('data-oracle'));
+        var oracle = Math.abs(oracleRaw);
         var decimals = parseInt(row.getAttribute('data-decimals'), 10) || 1;
 
         var bar = row.querySelector('.bar');
         var tick = row.querySelector('.tick');
+        var track = row.querySelector('.track');
         var val = row.querySelector('.val');
 
         bar.style.width = Math.min(100, (value / max) * 100).toFixed(2) + '%';
         tick.style.left = Math.min(100, (oracle / max) * 100).toFixed(2) + '%';
         tick.style.opacity = estimator === 'oracle' ? '0' : '0.6';
         val.textContent = format(parseFloat(row.getAttribute('data-' + estimator)), decimals);
+
+        var oracleSr = track.querySelector('.oracle-sr');
+        if (!oracleSr) {
+          oracleSr = document.createElement('span');
+          oracleSr.className = 'visually-hidden oracle-sr';
+          track.appendChild(oracleSr);
+        }
+        oracleSr.textContent = estimator === 'oracle' ? '' : ' (oracle: ' + format(oracleRaw, decimals) + ')';
       });
 
       buttons.forEach(function (button) {
@@ -345,6 +365,39 @@
 
     var copyTable = document.getElementById('copyTable');
     if (copyTable) {
+      var copyTimers = new WeakMap();
+      var lastCopyStatus = '';
+      var statusEl = copyTable.nextElementSibling && copyTable.nextElementSibling.getAttribute('role') === 'status'
+        ? copyTable.nextElementSibling
+        : null;
+
+      var finishCopy = function (ok) {
+        clearTimeout(copyTimers.get(copyTable));
+        copyTable.classList.toggle('done', ok);
+        if (ok) {
+          copyTable.setAttribute('data-copied', '');
+          copyTable.removeAttribute('data-failed');
+          copyTable.textContent = 'Copied';
+        } else {
+          copyTable.setAttribute('data-failed', '');
+          copyTable.removeAttribute('data-copied');
+          copyTable.textContent = 'Copy failed';
+        }
+        if (statusEl) {
+          var baseMsg = ok ? 'CSV copied' : 'Copy failed';
+          var outMsg = baseMsg === lastCopyStatus ? baseMsg + '\u00A0' : baseMsg;
+          lastCopyStatus = outMsg;
+          statusEl.textContent = outMsg;
+        }
+        copyTimers.set(copyTable, setTimeout(function () {
+          copyTable.textContent = 'Copy CSV';
+          copyTable.classList.remove('done');
+          copyTable.removeAttribute('data-copied');
+          copyTable.removeAttribute('data-failed');
+          if (statusEl) statusEl.textContent = '';
+        }, 1800));
+      };
+
       copyTable.addEventListener('click', function () {
         var estimator = causal.getAttribute('data-est') || 'oracle';
         var lines = ['question,outcome,estimator,value'];
@@ -356,18 +409,13 @@
             return '"' + String(cell).replace(/"/g, '""') + '"';
           }).join(','));
         });
-        var done = function () {
-          copyTable.textContent = 'Copied';
-          copyTable.classList.add('done');
-          setTimeout(function () {
-            copyTable.textContent = 'Copy CSV';
-            copyTable.classList.remove('done');
-          }, 1800);
-        };
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(lines.join('\n')).then(done, done);
+          navigator.clipboard.writeText(lines.join('\n')).then(
+            function () { finishCopy(true); },
+            function () { finishCopy(false); }
+          );
         } else {
-          done();
+          finishCopy(false);
         }
       });
     }
