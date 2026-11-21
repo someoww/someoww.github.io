@@ -1,123 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="color-scheme" content="light dark">
-<meta name="text-scale" content="scale">
-<script src="js/theme.js" blocking="render"></script>
-<link rel="expect" href="#projectTitle" blocking="render">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#eef0ea">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#e4ece7">
+<script src="js/theme.js"></script>
+<title>Projects | Muktadir Somio</title>
 <meta name="description" content="supply_route, a causal simulator and dispatch-time model for supply corridors, by Muktadir Somio.">
 <meta property="og:title" content="Projects | Muktadir Somio">
 <meta property="og:description" content="A causal simulator and a dispatch-time model for supply corridors. Synthetic districts, real methodology.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%90%B1</text></svg>">
-<link rel="stylesheet" href="css/tokens.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-132 -176 264 304'%3E%3Cpath d='M-105 -73L-112 -170L-33 -124ZM105 -73L112 -170L33 -124Z' fill='%23e8782a'/%3E%3Ccircle r='128' fill='%23e8782a'/%3E%3Ccircle cx='-50' r='17' fill='%231f1510'/%3E%3Ccircle cx='50' r='17' fill='%231f1510'/%3E%3Cpath d='M-11 30H11L0 44Z' fill='%23c4452f'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/projects.css">
-<title>Projects | Muktadir Somio</title>
+<style>@media (max-width:560px){.brand span{display:none}}</style>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip" href="#main">Skip to content</a>
 
-<header class="topbar" id="topbar">
-  <div class="topbar-inner">
-    <a class="mark" href="./" aria-label="Muktadir Somio, home">
-      <span class="seal" aria-hidden="true">MS</span>
-      <span class="mark-name">Muktadir Somio</span>
-    </a>
-    <nav class="nav" aria-label="Primary">
-      <a href="./">Home</a>
-      <a href="projects.html" aria-current="page">Projects</a>
-      <a href="writings.html">Writings</a>
-      <a class="ext" href="https://github.com/someoww" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <button class="theme-toggle" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="tt-knob" aria-hidden="true"></span></button>
-    </nav>
-  </div>
+<header class="top">
+  <a class="brand" href="index.html" aria-label="Muktadir Somio, home">
+    <svg class="mark cat" viewBox="-132 -176 264 304" aria-hidden="true">
+      <path d="M-105 -73L-112 -170L-33 -124ZM105 -73L112 -170L33 -124Z" fill="var(--ginger)"/>
+      <circle class="head" r="128" fill="var(--ginger)"/>
+      <g fill="var(--cream)"><circle cx="-26" cy="62" r="30"/><circle cx="26" cy="62" r="30"/><circle cy="46" r="24"/></g>
+      <path d="M-11 30H11L0 44Z" fill="var(--nose)"/>
+      <g class="eyes"><g class="lids"><circle cx="-50" r="17" fill="var(--cat-ink)"/><circle cx="50" r="17" fill="var(--cat-ink)"/></g></g>
+    </svg>
+    <span>Muktadir Somio</span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <a href="projects.html" aria-current="page">Projects</a>
+    <a href="writings.html">Writings</a>
+    <a href="https://github.com/someoww" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <button class="mode" id="mode" type="button" role="switch" aria-checked="false" aria-label="Dark mode">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
+    </button>
+  </nav>
 </header>
 
 <main id="main" tabindex="-1">
 
-  <section class="cover wrap" aria-labelledby="projectTitle">
-    <div class="cover-grid">
-      <div class="cover-copy">
-        <p class="kicker">Prototype, Python, 2026</p>
-        <h1 id="projectTitle">supply<span class="u">_</span>route</h1>
-        <p class="tagline">Risk, before the truck leaves.</p>
-        <p class="lede">A causal simulator and a dispatch-time model for supply corridors in Bangladesh. The districts are synthetic. The methodology is not. The project also asks how far a prediction can be trusted when the question turns causal.</p>
-        <div class="cover-actions">
-          <a class="btn btn-solid" href="https://github.com/someoww/supply_route" target="_blank" rel="noopener noreferrer">Read the code</a>
-          <a class="btn btn-ghost" href="#method">How it works</a>
-        </div>
-        <p class="cover-foot">scikit-learn, 42 features, time-ordered validation</p>
+  <section class="cover" aria-labelledby="projectTitle">
+    <div class="cover-copy">
+      <h1 id="projectTitle">supply_route</h1>
+      <p class="tagline">Risk, before the truck leaves.</p>
+      <p class="lede">A Python prototype from 2026: a causal simulator and a dispatch-time model for supply corridors in Bangladesh. The districts are synthetic. The methodology is not. The project also asks how far a prediction can be trusted when the question turns causal.</p>
+      <div class="actions">
+        <a class="btn btn-solid" href="https://github.com/someoww/supply_route" target="_blank" rel="noopener noreferrer">Read the code</a>
+        <a class="btn btn-ghost" href="#method">How it works</a>
       </div>
-
-      <figure class="map-stage" id="mapStage">
-        <div class="map-grid" aria-hidden="true"></div>
-        <div class="map-scan" aria-hidden="true"></div>
-        <svg id="routeMap" viewBox="0 0 640 600" role="img" aria-labelledby="mapTitle mapDesc">
-          <title id="mapTitle">Synthetic district network</title>
-          <desc id="mapDesc">Thirty-one nodes connected by route lines, coloured by route condition: 23 normal, 7 degraded and 1 critical.</desc>
-        </svg>
-        <div class="map-hud">
-          <div class="hud-top">
-            <p class="hud-label"><b>synthetic district network</b>seed 42, 31 nodes</p>
-            <div class="legend" aria-hidden="true">
-              <span><i class="sw sw-ok"></i>normal 23</span>
-              <span><i class="sw sw-warn"></i>degraded 7</span>
-              <span><i class="sw sw-oxide"></i>critical 1</span>
-            </div>
-          </div>
-          <div class="hud-bottom">
-            <p class="map-hint" id="mapHint">Hover or tap a district</p>
-            <div class="readout" id="readout" aria-live="polite">
-              <span class="ro-id" id="roId">D-18</span>
-              <span class="ro-score"><b id="roScore">43</b><span>condition score</span></span>
-              <span class="ro-cls" id="roCls" data-cls="critical">critical</span>
-              <span class="ro-delay" id="roDelay">19.7 h delay</span>
-            </div>
-          </div>
-        </div>
-      </figure>
     </div>
+
+    <figure class="map" id="mapStage">
+      <svg id="routeMap" viewBox="-150 -185 300 330" role="group" aria-labelledby="mapTitle mapDesc">
+        <title id="mapTitle">Synthetic district network</title>
+        <desc id="mapDesc">Thirty-one districts drawn inside the outline of a cat's face and joined by route lines. Twenty-three are normal, shown as circles. Seven are degraded, shown as triangles. One is critical, shown as a diamond at the nose.</desc>
+        <path class="sil" d="M-105 -73L-112 -170L-33 -124A128 128 0 0 1 33 -124L112 -170L105 -73A128 128 0 1 1 -105 -73Z"/>
+        <circle class="eye-ring" cx="-50" cy="0" r="19"/>
+        <circle class="eye-ring" cx="50" cy="0" r="19"/>
+      </svg>
+      <figcaption>
+        <p class="map-hint" id="mapHint">Hover or tap a district.</p>
+        <div class="readout" id="readout" aria-live="polite" aria-atomic="true">
+          <span class="ro-id" id="roId">D-18</span>
+          <span class="ro-score"><b id="roScore">43</b><span>condition score</span></span>
+          <span class="ro-cls" id="roCls" data-cls="critical">critical</span>
+          <span class="ro-delay" id="roDelay">19.7 h delay</span>
+        </div>
+        <ul class="legend" aria-label="Legend">
+          <li><svg viewBox="-7 -7 14 14" aria-hidden="true"><circle r="5" fill="var(--ok)"/></svg>normal 23</li>
+          <li><svg viewBox="-7 -7 14 14" aria-hidden="true"><path d="M0 -6L6 5H-6Z" fill="var(--warn)"/></svg>degraded 7</li>
+          <li><svg viewBox="-7 -7 14 14" aria-hidden="true"><path d="M0 -7L7 0L0 7L-7 0Z" fill="var(--crit)"/></svg>critical 1</li>
+        </ul>
+      </figcaption>
+    </figure>
   </section>
 
-  <section class="kpis wrap" aria-label="Project at a glance">
-    <div class="kpi"><b>93,000</b><span>simulated district-days</span></div>
-    <div class="kpi"><b>31</b><span>districts in the panel</span></div>
-    <div class="kpi"><b>42</b><span>dispatch-time features</span></div>
-    <div class="kpi"><b>5</b><span>interventions tested</span></div>
-  </section>
-
-  <section class="sec wrap" id="method">
+  <section class="sec" id="method">
     <div class="sec-head">
       <h2>One world, simulated. Then asked hard questions.</h2>
       <p>Every row comes from an explicit structural causal model, so the true effect is known. The predictor sees only what is available at dispatch. The causal module then checks its answers against that truth.</p>
     </div>
-    <ol class="pipeline" role="list">
+    <ol class="pipeline">
       <li class="step">
-        <span class="n">01</span>
+        <span class="n">1</span>
         <h3>Simulate</h3>
         <p>Thirty-one districts over three thousand days. Weather, unrest, fuel and logistics follow an explicit graph, with confounding and persistence built in. One seed produces 93,000 rows.</p>
       </li>
       <li class="step">
-        <span class="n">02</span>
+        <span class="n">2</span>
         <h3>Predict</h3>
         <p>A gradient-boosted model sees 42 columns known at dispatch. The newest 20% of days are held out behind a 30-day buffer, so autocorrelated weather cannot leak into the score.</p>
       </li>
       <li class="step">
-        <span class="n">03</span>
+        <span class="n">3</span>
         <h3>Interrogate</h3>
         <p>Backdoor adjustment is compared with the simulator’s oracle. Naive comparisons miss by as much as a factor of three. Flipping an input inside the predictor erases the effect entirely.</p>
       </li>
     </ol>
   </section>
 
-  <section class="sec wrap" id="effects">
+  <section class="sec" id="effects">
     <div class="sec-head">
       <h2>What a prediction cannot tell you.</h2>
-      <p>Five what-ifs, four ways of answering. Choose an estimator and see how far it lands from the simulated truth. Bars show effect size; the thin tick marks the oracle.</p>
+      <p>Five what-ifs, four ways of answering. Choose an estimator and see how far it lands from the simulated truth. The dot shows the estimate; the diamond marks the oracle.</p>
     </div>
 
     <div class="causal" id="causal" data-est="oracle">
@@ -166,7 +154,7 @@
     </div>
   </section>
 
-  <section class="sec wrap" id="specs">
+  <section class="sec" id="specs">
     <div class="specs">
       <div class="specs-intro">
         <h2>The fine print.</h2>
@@ -181,22 +169,25 @@
         <div class="spec"><dt>Scope</dt><dd>31 synthetic districts, one product per route, same-day effects only</dd></div>
       </dl>
     </div>
-    <aside class="limits"><b>Known limits.</b> No spatial spillover, no route network, no lagged effects. Class balance sits near 75 / 21 / 4, so the critical class is rare. None of this describes the real Bangladesh. It asks only whether the methods hold up in a world where the truth is visible.</aside>
+    <p class="limits"><b>Known limits.</b> No spatial spillover, no route network, no lagged effects. Class balance sits near 75 / 21 / 4, so the critical class is rare. None of this describes the real Bangladesh. It asks only whether the methods hold up in a world where the truth is visible.</p>
   </section>
 
-  <section class="sec wrap" id="next">
+  <section class="sec" id="next">
     <div class="sec-head">
       <h2>And one more, still forming.</h2>
     </div>
-    <article class="next-card">
-      <span class="next-tag">In Progress</span>
-      <h3>Project</h3>
-      <p>Misinformation spreads fast, hatred campaigns hurt democracy and human rights. Building a system that efficiently monitors, and prevents the spread from happening.</p>
-      <span class="next-status">Looking forward to sharing prototypes soon</span>
+    <article class="next">
+      <span class="next-mark" aria-hidden="true"></span>
+      <div>
+        <span class="next-tag">In progress</span>
+        <h3>Project</h3>
+        <p>Misinformation spreads fast, hatred campaigns hurt democracy and human rights. Building a system that efficiently monitors, and prevents the spread from happening.</p>
+        <span class="next-status">Looking forward to sharing prototypes soon</span>
+      </div>
     </article>
   </section>
 
-  <section class="sec wrap outro">
+  <section class="sec outro">
     <div>
       <h2>That is the work so far.</h2>
       <p>If you want the longer version, the code and the README are on GitHub.</p>
@@ -210,11 +201,8 @@
 </main>
 
 <footer class="foot">
-  <div class="foot-inner">
-    <p>Dhaka, Bangladesh <time class="mono" id="clock">--:--</time></p>
-    <p>Built by hand. No images, no trackers, no fonts fetched.</p>
-    <p class="foot-contact"><a id="emailLink" href="mailto:somiomuktadir@gmail.com">somiomuktadir@gmail.com</a><button class="copy" type="button" command="--copy" commandfor="emailLink" data-copy="somiomuktadir@gmail.com" aria-label="Copy email address">copy</button><span class="visually-hidden" role="status"></span></p>
-  </div>
+  <p>Applied Statistics and Data Science, IASDS, University of Dhaka</p>
+  <p><a href="mailto:somiomuktadir@gmail.com">somiomuktadir@gmail.com</a><button class="copy" type="button" data-copy="somiomuktadir@gmail.com" aria-label="Copy email address">copy</button><span class="visually-hidden" role="status"></span></p>
 </footer>
 
 <script src="js/site.js"></script>

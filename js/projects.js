@@ -1,9 +1,15 @@
-/* Projects page: the synthetic network and the causal panel. */
+/* Projects page: the district network drawn inside the cat, and the estimator panel. */
 (function () {
   'use strict';
 
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var SVG_NS = 'http://www.w3.org/2000/svg';
+  var NS = 'http://www.w3.org/2000/svg';
+
+  function el(name, attrs) {
+    var n = document.createElementNS(NS, name);
+    for (var k in attrs) n.setAttribute(k, attrs[k]);
+    return n;
+  }
 
   /* ---------------- deterministic world ---------------- */
   function mulberry32(seed) {
@@ -15,45 +21,79 @@
       return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
     };
   }
-
   var rand = mulberry32(42);
+
+  /* the cat's face, in the same units as the drawing on the home page */
+  var EYES = [[-50, 0], [50, 0]];
+  var NOSE = [0, 38];
+  var EARS = [
+    [[-105, -73], [-112, -170], [-33, -124]],
+    [[105, -73], [112, -170], [33, -124]]
+  ];
+
+  function shrink(t, k) {
+    var cx = (t[0][0] + t[1][0] + t[2][0]) / 3;
+    var cy = (t[0][1] + t[1][1] + t[2][1]) / 3;
+    return t.map(function (p) { return [cx + (p[0] - cx) * k, cy + (p[1] - cy) * k]; });
+  }
+  function inTri(x, y, t) {
+    var a = t[0], b = t[1], c = t[2];
+    var d = (b[1] - c[1]) * (a[0] - c[0]) + (c[0] - b[0]) * (a[1] - c[1]);
+    var l1 = ((b[1] - c[1]) * (x - c[0]) + (c[0] - b[0]) * (y - c[1])) / d;
+    var l2 = ((c[1] - a[1]) * (x - c[0]) + (a[0] - c[0]) * (y - c[1])) / d;
+    return l1 >= 0 && l2 >= 0 && (1 - l1 - l2) >= 0;
+  }
+  var earsIn = EARS.map(function (t) { return shrink(t, 0.7); });
+
+  function inside(x, y) {
+    if (Math.hypot(x - EYES[0][0], y) < 27 || Math.hypot(x - EYES[1][0], y) < 27) return false;
+    if (Math.hypot(x, y) < 119) return true;
+    return earsIn.some(function (t) { return inTri(x, y, t); });
+  }
+
+  /* Mitchell's best-candidate sampling: an even scatter of 30 districts, with the nose held back for the 31st. */
   var N = 31;
+  var CRITICAL = 17;
+  var placed = [NOSE.slice()];
+  var n, k;
+  for (n = 0; n < N - 1; n++) {
+    var best = null, bestD = -1;
+    for (k = 0; k < 30; k++) {
+      var x, y, guard = 0;
+      do {
+        x = (rand() * 2 - 1) * 125;
+        y = -168 + rand() * 296;
+      } while (!inside(x, y) && ++guard < 400);
+      var d = Infinity;
+      for (var q = 0; q < placed.length; q++) {
+        d = Math.min(d, Math.hypot(placed[q][0] - x, placed[q][1] - y));
+      }
+      if (d > bestD) { bestD = d; best = [x, y]; }
+    }
+    if (!best) best = [0, 0];
+    placed.push(best);
+  }
+  var positions = placed.slice(1);
+  positions.splice(CRITICAL, 0, NOSE.slice());
+
   var degradedSet = { 3: 1, 7: 1, 11: 1, 15: 1, 19: 1, 23: 1, 27: 1 };
-  var criticalIndex = 17;
-  var nodes = [];
-  var i;
-
-  for (i = 0; i < N; i++) {
-    var angle = i * 2.399963229728653;
-    var radius = 34 + 236 * Math.sqrt((i + 0.5) / N);
-    var x = 320 + Math.cos(angle) * radius + (rand() - 0.5) * 22;
-    var y = 300 + Math.sin(angle) * radius * 0.84 + (rand() - 0.5) * 20;
-
-    var kind = i === criticalIndex ? 'critical' : (degradedSet[i] ? 'degraded' : 'normal');
-    var score = kind === 'critical'
-      ? 38 + Math.round(rand() * 9)
-      : kind === 'degraded'
-        ? 52 + Math.round(rand() * 20)
-        : 78 + Math.round(rand() * 18);
-    var delay = (100 - score) * 0.32 + 1.5 + rand() * 4;
-
-    nodes.push({
+  var nodes = positions.map(function (p, i) {
+    var kind = i === CRITICAL ? 'critical' : (degradedSet[i] ? 'degraded' : 'normal');
+    var score = kind === 'critical' ? 43
+      : kind === 'degraded' ? 52 + Math.round(rand() * 20)
+      : 78 + Math.round(rand() * 18);
+    var delay = kind === 'critical' ? 19.7 : (100 - score) * 0.32 + 1.5 + rand() * 4;
+    return {
       index: i,
       id: 'D-' + (i + 1 < 10 ? '0' : '') + (i + 1),
-      x: x,
-      y: y,
+      x: p[0],
+      y: p[1],
       kind: kind,
       score: score,
       delay: delay,
-      r: 4.3 + rand() * 1.5
-    });
-  }
-
-  var COLOR = {
-    normal: 'var(--ok)',
-    degraded: 'var(--warn)',
-    critical: 'var(--oxide)'
-  };
+      r: kind === 'critical' ? 4.8 : 3.4 + rand() * 1.2
+    };
+  });
 
   /* ---------------- build the network ---------------- */
   var svg = document.getElementById('routeMap');
@@ -66,14 +106,10 @@
   var hint = document.getElementById('mapHint');
 
   if (svg && stage && readout) {
-    var group = document.createElementNS(SVG_NS, 'g');
-    group.setAttribute('id', 'mapGroup');
-
-    var edgeLayer = document.createElementNS(SVG_NS, 'g');
-    var flowLayer = document.createElementNS(SVG_NS, 'g');
-    var nodeLayer = document.createElementNS(SVG_NS, 'g');
+    var group = el('g', { id: 'mapGroup' });
+    var edgeLayer = el('g', {});
+    var nodeLayer = el('g', {});
     group.appendChild(edgeLayer);
-    group.appendChild(flowLayer);
     group.appendChild(nodeLayer);
     svg.appendChild(group);
 
@@ -94,17 +130,17 @@
         var key = lo + '-' + hi;
         if (seen[key]) return;
         seen[key] = 1;
-        edges.push({ a: a, b: item.b, key: key });
+        edges.push({ a: a, b: item.b });
       });
     });
 
     /* a few long-haul links so the network does not read as a chain */
-    for (i = 0; i < N; i += 6) {
-      var partner = (i + 13) % N;
-      var key = Math.min(i, partner) + '-' + Math.max(i, partner);
-      if (!seen[key] && i !== partner) {
+    for (n = 0; n < N; n += 6) {
+      var partner = (n + 13) % N;
+      var key = Math.min(n, partner) + '-' + Math.max(n, partner);
+      if (!seen[key] && n !== partner) {
         seen[key] = 1;
-        edges.push({ a: nodes[i], b: nodes[partner], key: key });
+        edges.push({ a: nodes[n], b: nodes[partner] });
       }
     }
 
@@ -124,34 +160,27 @@
     }
 
     edges.forEach(function (edge, index) {
-      var d = curvePath(edge.a, edge.b, (rand() - 0.5) * 34);
-
-      var base = document.createElementNS(SVG_NS, 'path');
-      base.setAttribute('d', d);
-      base.setAttribute('class', 'edge draw');
-      base.setAttribute('pathLength', '1');
-      base.style.animationDelay = (0.25 + index * 0.022).toFixed(2) + 's';
-      edgeLayer.appendChild(base);
-
-      if (index % 6 === 0) {
-        var flow = document.createElementNS(SVG_NS, 'path');
-        flow.setAttribute('d', d);
-        flow.setAttribute('class', 'edge flow');
-        flow.style.animationDelay = (1.1 + (index % 4) * 0.35).toFixed(2) + 's, ' + (index * 0.7).toFixed(2) + 's';
-        flowLayer.appendChild(flow);
-      }
+      var path = el('path', {
+        d: curvePath(edge.a, edge.b, (rand() - 0.5) * 30),
+        class: 'edge',
+        pathLength: '1'
+      });
+      path.style.animationDelay = (0.2 + index * 0.02).toFixed(2) + 's';
+      edgeLayer.appendChild(path);
     });
 
-    var pinned = nodes[criticalIndex];
+    var pinned = nodes[CRITICAL];
     var current = pinned;
 
     function paintReadout(node) {
       current = node;
-      roId.textContent = node.id;
-      roScore.textContent = node.score;
-      roCls.textContent = node.kind;
-      roCls.setAttribute('data-cls', node.kind);
-      roDelay.textContent = node.delay.toFixed(1) + ' h delay';
+      if (roId) roId.textContent = node.id;
+      if (roScore) roScore.textContent = node.score;
+      if (roCls) {
+        roCls.textContent = node.kind;
+        roCls.setAttribute('data-cls', node.kind);
+      }
+      if (roDelay) roDelay.textContent = node.delay.toFixed(1) + ' h delay';
       readout.setAttribute('aria-label',
         node.id + ', ' + node.kind + ', condition score ' + node.score +
         ', average delay ' + node.delay.toFixed(1) + ' hours');
@@ -163,64 +192,56 @@
 
     var nodeEls = [];
 
+    function pinNode(node, element) {
+      pinned = node;
+      nodeEls.forEach(function (item) { item.classList.remove('pinned'); });
+      if (element) element.classList.add('pinned');
+      paintReadout(node);
+      dismissHint();
+    }
+
     nodes.forEach(function (node, index) {
-      var g = document.createElementNS(SVG_NS, 'g');
-      g.setAttribute('class', 'node ' + node.kind);
-      g.setAttribute('data-index', String(index));
-      g.setAttribute('tabindex', index === criticalIndex ? '0' : '-1');
-      g.setAttribute('role', 'button');
-      g.setAttribute('aria-label',
-        node.id + ', ' + node.kind + ', condition score ' + node.score +
-        ', delay ' + node.delay.toFixed(1) + ' hours');
-      g.style.animationDelay = (0.35 + index * 0.028).toFixed(2) + 's';
+      var g = el('g', {
+        class: 'node ' + node.kind,
+        'data-index': String(index),
+        tabindex: index === CRITICAL ? '0' : '-1',
+        role: 'button',
+        'aria-label': node.id + ', ' + node.kind + ', condition score ' + node.score +
+          ', delay ' + node.delay.toFixed(1) + ' hours'
+      });
 
-      if (node.kind === 'critical') {
-        var pulse = document.createElementNS(SVG_NS, 'circle');
-        pulse.setAttribute('class', 'pulse');
-        pulse.setAttribute('cx', node.x);
-        pulse.setAttribute('cy', node.y);
-        pulse.setAttribute('r', '9');
-        g.appendChild(pulse);
+      var hit = el('circle', { class: 'hit', cx: node.x, cy: node.y, r: '12' });
+      var ring = el('circle', { class: 'ring', cx: node.x, cy: node.y, r: '9.5' });
+
+      var glyph;
+      if (node.kind === 'normal') {
+        glyph = el('circle', { class: 'glyph', cx: node.x, cy: node.y, r: node.r.toFixed(2) });
+      } else if (node.kind === 'degraded') {
+        var t = node.r * 1.7;
+        glyph = el('path', {
+          class: 'glyph',
+          d: 'M' + node.x.toFixed(1) + ' ' + (node.y - t).toFixed(1) +
+             'L' + (node.x + t * 0.92).toFixed(1) + ' ' + (node.y + t * 0.72).toFixed(1) +
+             'H' + (node.x - t * 0.92).toFixed(1) + 'Z'
+        });
+      } else {
+        var d2 = node.r * 1.8;
+        glyph = el('path', {
+          class: 'glyph',
+          d: 'M' + node.x.toFixed(1) + ' ' + (node.y - d2).toFixed(1) +
+             'L' + (node.x + d2).toFixed(1) + ' ' + node.y.toFixed(1) +
+             'L' + node.x.toFixed(1) + ' ' + (node.y + d2).toFixed(1) +
+             'L' + (node.x - d2).toFixed(1) + ' ' + node.y.toFixed(1) + 'Z'
+        });
       }
+      glyph.style.animationDelay = (0.35 + index * 0.025).toFixed(2) + 's';
 
-      var halo = document.createElementNS(SVG_NS, 'circle');
-      halo.setAttribute('class', 'halo');
-      halo.setAttribute('cx', node.x);
-      halo.setAttribute('cy', node.y);
-      halo.setAttribute('r', '15');
-      halo.setAttribute('fill', COLOR[node.kind]);
-
-      var ring = document.createElementNS(SVG_NS, 'circle');
-      ring.setAttribute('class', 'ring');
-      ring.setAttribute('cx', node.x);
-      ring.setAttribute('cy', node.y);
-      ring.setAttribute('r', '9.5');
-
-      var core = document.createElementNS(SVG_NS, 'circle');
-      core.setAttribute('class', 'core');
-      core.setAttribute('cx', node.x);
-      core.setAttribute('cy', node.y);
-      core.setAttribute('r', node.r.toFixed(2));
-      core.setAttribute('fill', COLOR[node.kind]);
-      if (node.kind !== 'normal') {
-        core.style.filter = 'drop-shadow(0 0 5px ' + COLOR[node.kind] + ')';
-      }
-
-      g.appendChild(halo);
+      g.appendChild(hit);
       g.appendChild(ring);
-      g.appendChild(core);
-
-      if (node.kind === 'critical') {
-        var tag = document.createElementNS(SVG_NS, 'text');
-        tag.setAttribute('x', (node.x + 9).toFixed(1));
-        tag.setAttribute('y', (node.y - 8).toFixed(1));
-        tag.setAttribute('class', 'node-tag');
-        tag.textContent = node.id;
-        g.appendChild(tag);
-      }
+      g.appendChild(glyph);
 
       g.addEventListener('pointerenter', function () {
-        if (window.matchMedia('(hover: hover)').matches) {
+        if (window.matchMedia && matchMedia('(hover: hover)').matches) {
           paintReadout(node);
           dismissHint();
         }
@@ -230,9 +251,7 @@
         dismissHint();
       });
       g.addEventListener('click', function () {
-        pinned = node;
-        paintReadout(node);
-        dismissHint();
+        pinNode(node, g);
       });
       g.addEventListener('keydown', function (event) {
         var nextIndex = null;
@@ -242,8 +261,7 @@
         else if (event.key === 'End') nextIndex = N - 1;
         else if (event.key === 'Enter') {
           event.preventDefault();
-          pinned = node;
-          paintReadout(node);
+          pinNode(node, g);
           return;
         } else if (event.key === ' ') {
           event.preventDefault();
@@ -251,16 +269,15 @@
         }
         if (nextIndex === null) return;
         event.preventDefault();
-        nodeEls.forEach(function (el, n) {
-          el.setAttribute('tabindex', n === nextIndex ? '0' : '-1');
+        nodeEls.forEach(function (element, i) {
+          element.setAttribute('tabindex', i === nextIndex ? '0' : '-1');
         });
         nodeEls[nextIndex].focus();
       });
       g.addEventListener('keyup', function (event) {
         if (event.key === ' ') {
           event.preventDefault();
-          pinned = node;
-          paintReadout(node);
+          pinNode(node, g);
         }
       });
 
@@ -268,6 +285,7 @@
       nodeLayer.appendChild(g);
     });
 
+    if (nodeEls[CRITICAL]) nodeEls[CRITICAL].classList.add('pinned');
     paintReadout(pinned);
 
     stage.addEventListener('pointerleave', function () {
@@ -365,14 +383,13 @@
 
     var copyTable = document.getElementById('copyTable');
     if (copyTable) {
-      var copyTimers = new WeakMap();
-      var lastCopyStatus = '';
+      var copyTimer = 0;
       var statusEl = copyTable.nextElementSibling && copyTable.nextElementSibling.getAttribute('role') === 'status'
         ? copyTable.nextElementSibling
         : null;
 
       var finishCopy = function (ok) {
-        clearTimeout(copyTimers.get(copyTable));
+        clearTimeout(copyTimer);
         copyTable.classList.toggle('done', ok);
         if (ok) {
           copyTable.setAttribute('data-copied', '');
@@ -383,19 +400,14 @@
           copyTable.removeAttribute('data-copied');
           copyTable.textContent = 'Copy failed';
         }
-        if (statusEl) {
-          var baseMsg = ok ? 'CSV copied' : 'Copy failed';
-          var outMsg = baseMsg === lastCopyStatus ? baseMsg + '\u00A0' : baseMsg;
-          lastCopyStatus = outMsg;
-          statusEl.textContent = outMsg;
-        }
-        copyTimers.set(copyTable, setTimeout(function () {
+        if (statusEl) statusEl.textContent = ok ? 'CSV copied' : 'Copy failed';
+        copyTimer = setTimeout(function () {
           copyTable.textContent = 'Copy CSV';
           copyTable.classList.remove('done');
           copyTable.removeAttribute('data-copied');
           copyTable.removeAttribute('data-failed');
           if (statusEl) statusEl.textContent = '';
-        }, 1800));
+        }, 1800);
       };
 
       copyTable.addEventListener('click', function () {
@@ -424,8 +436,7 @@
 
     if (!reduce) {
       rows.forEach(function (row) {
-        var bar = row.querySelector('.bar');
-        bar.style.width = '0%';
+        row.querySelector('.bar').style.width = '0%';
       });
       requestAnimationFrame(function () {
         setTimeout(function () { render('oracle', false); }, 120);

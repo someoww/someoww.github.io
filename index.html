@@ -1,149 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="color-scheme" content="light dark">
-<meta name="text-scale" content="scale">
-<script src="js/theme.js" blocking="render"></script>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#e3e6de">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#e4ece7">
+<script src="js/theme.js"></script>
+<title>Muktadir Somio</title>
 <meta name="description" content="Muktadir Somio, applied statistics and data science student at the University of Dhaka.">
 <meta property="og:title" content="Muktadir Somio">
 <meta property="og:description" content="Applied statistics and data science student at the University of Dhaka.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%90%B1</text></svg>">
-<link rel="stylesheet" href="css/tokens.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-132 -176 264 304'%3E%3Cpath d='M-105 -73L-112 -170L-33 -124ZM105 -73L112 -170L33 -124Z' fill='%23e8782a'/%3E%3Ccircle r='128' fill='%23e8782a'/%3E%3Ccircle cx='-50' r='17' fill='%231f1510'/%3E%3Ccircle cx='50' r='17' fill='%231f1510'/%3E%3Cpath d='M-11 30H11L0 44Z' fill='%23c4452f'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/home.css">
-<link rel="expect" href="#stage" blocking="render">
-<title>Muktadir Somio</title>
-<noscript><style>
-  .settle{opacity:1!important;pointer-events:auto!important}
-  .skip{display:none}
-  .dim{display:none}
-  .beam{opacity:1!important}
-  .cat-wrap{left:50%;bottom:var(--cat-b);transform:translateX(-50%) scale(1.2)}
-</style></noscript>
+<noscript><style>.wsk .wk,.orbit a,.wsk .wd circle{animation:none!important;stroke-dashoffset:0!important}</style></noscript>
 </head>
-<body>
-<main class="stage" id="stage">
-  <div class="floor" aria-hidden="true"><div class="beam"></div></div>
-  <div class="rug" aria-hidden="true"></div>
+<body class="home">
+<a class="skip" href="#main">Skip to content</a>
 
-  <h1 class="frame-wrap"><a class="frame" id="brand" href="./" title="Replay the welcome"><b>Muktadir Somio</b><small>applied statistics and data science</small><span class="sr-only"> (replay the welcome)</span></a></h1>
+<header class="top">
+  <button class="mode" id="mode" type="button" role="switch" aria-checked="false" aria-label="Dark mode">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
+  </button>
+</header>
 
-  <div class="wall-left" aria-hidden="true">
-    <div class="win"><div class="sky"><div class="stars"></div><div class="sun"></div><div class="moon"></div><div class="cloud"></div></div><div class="win-sill"></div></div>
-  </div>
-
-  <div class="wall-right">
-    <div class="shelf">
-      <div class="shelf-item">
-        <button class="thing books" type="button" aria-label="Books: Python and R" aria-describedby="tip-books" interestfor="tip-books" popovertarget="tip-books" popovertargetaction="show"><span class="book">Py</span><span class="book">R</span><span class="book">∑</span></button>
-        <div class="tip" id="tip-books" popover="hint" role="tooltip">Python is my language of choice. R runs the curriculum.</div>
-      </div>
-      <div class="shelf-item">
-        <button class="thing" type="button" aria-label="Chess knight" aria-describedby="tip-chess" interestfor="tip-chess" popovertarget="tip-chess" popovertargetaction="show"><span class="piece" aria-hidden="true">♞&#xFE0E;</span></button>
-        <div class="tip" id="tip-chess" popover="hint" role="tooltip">Chess sharpens me.</div>
-      </div>
-      <div class="shelf-item">
-        <button class="thing compass" type="button" aria-label="Compass" aria-describedby="tip-compass" interestfor="tip-compass" popovertarget="tip-compass" popovertargetaction="show">
-          <svg viewBox="0 0 40 40" aria-hidden="true">
-            <circle cx="20" cy="20" r="15.5" fill="none" stroke="currentColor" stroke-opacity=".32" stroke-width="1.5"/>
-            <circle cx="20" cy="20" r="11" fill="none" stroke="currentColor" stroke-opacity=".16" stroke-width="1"/>
-            <path d="M20 5.8 L23.7 18.2 L20 20 L16.3 18.2 Z" fill="var(--accent)"/>
-            <path d="M20 34.2 L16.3 21.8 L20 20 L23.7 21.8 Z" fill="currentColor" opacity=".32"/>
-            <circle cx="20" cy="20" r="1.7" fill="var(--accent)"/>
-          </svg>
-        </button>
-        <div class="tip" id="tip-compass" popover="hint" role="tooltip">For the next idea.</div>
-      </div>
-      <div class="shelf-item">
-        <button class="thing plant" type="button" aria-label="Plant" aria-describedby="tip-plant" interestfor="tip-plant" popovertarget="tip-plant" popovertargetaction="show">
-          <svg viewBox="0 0 30 46" aria-hidden="true"><path d="M15 28C15 18 9 12 3 10c0 9 5 15 12 18Z" fill="#5f8f5a"/><path d="M15 28c0-11 6-17 12-19 0 10-5 16-12 19Z" fill="#7aa86f"/><path d="M15 28V8" stroke="#5f8f5a" stroke-width="2" stroke-linecap="round"/><path d="M6 28h18l-2 16H8Z" fill="var(--oxide)"/><rect x="5" y="26" width="20" height="4" rx="1.5" fill="var(--oxide)"/></svg>
-        </button>
-        <div class="tip" id="tip-plant" popover="hint" role="tooltip">Ideas take time.</div>
-      </div>
+<main id="main" class="hero" tabindex="-1">
+  <div class="intro">
+    <div>
+      <h1>Muktadir Somio</h1>
+      <p class="role">Applied statistics and data science</p>
     </div>
-    <button class="note" id="note" type="button"><span class="nk" lang="es">palabra del día</span><span class="nw" id="noteWord" lang="es"></span><span class="nm" id="noteMean"></span></button>
+    <div class="intro-text">
+      <p>I’m a second-year Applied Statistics and Data Science student at IASDS, University of Dhaka. I play with ideas until they hold or dissolve. Chess sharpens me. Python is my language of choice, though R runs the curriculum. I am slowly collecting Spanish words on Duolingo. The projects page has what I have built.</p>
+      <p class="sign">Have a nice day. Meow.</p>
+    </div>
   </div>
 
-  <button class="switch settle" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Dark mode" title="Light switch"><span class="rocker"></span></button>
+  <div class="stage">
+    <div class="whisk">
+      <svg class="halo" viewBox="0 0 1000 620" aria-hidden="true">
+        <circle class="disc" cx="500" cy="360" r="236"/>
+        <circle class="ring" cx="500" cy="360" r="296"/>
+        <circle class="ring" cx="500" cy="360" r="362"/>
+        <circle class="ring" cx="500" cy="360" r="430"/>
+        <path class="bit" d="M140 104 L158 138 L122 138 Z"/>
+        <path class="bit" d="M868 96 L886 122 L868 148 L850 122 Z"/>
+        <circle class="bit-solid" cx="72" cy="236" r="9"/>
+        <path class="bit" d="M930 236 L944 262 L916 262 Z"/>
+        <circle class="bit" cx="822" cy="590" r="7"/>
+      </svg>
 
-  <div class="dim" aria-hidden="true"></div>
+      <svg class="cat" id="cat" viewBox="-170 -190 340 380" role="button" tabindex="0" aria-label="Pet the cat">
+        <g class="ear ear-l"><path d="M-105 -73L-112 -170L-33 -124Z" fill="var(--ginger)"/><path d="M-94 -98L-98 -146L-58 -123Z" fill="var(--cream)"/></g>
+        <g class="ear ear-r"><path d="M105 -73L112 -170L33 -124Z" fill="var(--ginger)"/><path d="M94 -98L98 -146L58 -123Z" fill="var(--cream)"/></g>
+        <circle class="head" r="128" fill="var(--ginger)"/>
+        <g fill="var(--ginger-deep)">
+          <path d="M-10 -122H10L0 -72Z"/>
+          <path d="M-46 -113L-28 -120L-34 -78Z"/><path d="M46 -113L28 -120L34 -78Z"/>
+          <path d="M-127 -14L-90 -5L-126 8Z"/><path d="M-123 26L-90 33L-118 46Z"/>
+          <path d="M127 -14L90 -5L126 8Z"/><path d="M123 26L90 33L118 46Z"/>
+        </g>
+        <g fill="var(--cream)"><circle cx="-26" cy="62" r="30"/><circle cx="26" cy="62" r="30"/><circle cy="46" r="24"/></g>
+        <path d="M-11 30H11L0 44Z" fill="var(--nose)"/>
+        <path d="M0 44V54M0 54Q-14 68 -30 58M0 54Q14 68 30 58" fill="none" stroke="var(--cat-ink)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <g class="eyes">
+          <g class="eyes-open lids">
+            <circle cx="-50" r="17" fill="var(--cat-ink)"/><circle cx="50" r="17" fill="var(--cat-ink)"/>
+            <circle cx="-45" cy="-6" r="5" fill="var(--cream)"/><circle cx="55" cy="-6" r="5" fill="var(--cream)"/>
+          </g>
+          <g class="eyes-happy" fill="none" stroke="var(--cat-ink)" stroke-width="6" stroke-linecap="round">
+            <path d="M-68 5Q-50 -17 -32 5"/><path d="M32 5Q50 -17 68 5"/>
+          </g>
+        </g>
+      </svg>
 
-  <div class="bubble" id="bubble">
-    <span id="typed">Psst. I’m Muktadir Somio, a second-year Applied Statistics and Data Science student at IASDS, University of Dhaka. I play with ideas until they hold or dissolve. Chess sharpens me. Python is my language of choice, though R runs the curriculum. I am slowly collecting Spanish words on Duolingo. The projects page has what I have built.</span><span class="cursor" id="cursor"></span><span class="ghost" id="ghost"></span>
-    <span class="line2" id="line2"><span id="typed2">Have a nice day. Meow.</span><span class="ghost" id="ghost2"></span></span>
+      <svg class="wsk" viewBox="0 0 1000 620" aria-hidden="true">
+        <path class="wk" data-w="projects" pathLength="1" d="M458 424Q320 380 168 330"/>
+        <path class="wk" data-w="writings" pathLength="1" d="M458 448Q330 478 190 522"/>
+        <path class="wk" pathLength="1" d="M456 436Q370 430 270 446"/>
+        <path class="wk" data-w="github" pathLength="1" d="M542 424Q680 380 832 330"/>
+        <path class="wk" data-w="email" pathLength="1" d="M542 448Q670 478 810 522"/>
+        <path class="wk" pathLength="1" d="M544 436Q630 430 730 446"/>
+        <g class="wd">
+          <circle data-w="projects" cx="168" cy="330" r="6"/>
+          <circle data-w="writings" cx="190" cy="522" r="6"/>
+          <circle data-w="github" cx="832" cy="330" r="6"/>
+          <circle data-w="email" cx="810" cy="522" r="6"/>
+        </g>
+      </svg>
+
+      <nav class="orbit" aria-label="Elsewhere">
+        <a class="o-projects" data-w="projects" href="projects.html">Projects</a>
+        <a class="o-writings" data-w="writings" href="writings.html">Writings</a>
+        <a class="o-github" data-w="github" href="https://github.com/someoww" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a class="o-email" data-w="email" href="mailto:somiomuktadir@gmail.com">Email</a>
+      </nav>
+    </div>
   </div>
-  <p class="sr-only" id="srText"></p>
 
-  <div class="cat-wrap" id="cat">
-    <svg viewBox="0 0 240 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <radialGradient id="fur" cx="38%" cy="30%" r="75%">
-          <stop offset="0%" stop-color="var(--fur-hi)"/>
-          <stop offset="60%" stop-color="var(--fur-mid)"/>
-          <stop offset="100%" stop-color="var(--fur-dark)"/>
-        </radialGradient>
-        <filter id="soft" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="6"/></filter>
-      </defs>
-      <ellipse cx="120" cy="286" rx="72" ry="12" fill="#000" opacity="0.2" filter="url(#soft)"/>
-      <path class="tail" d="M182 224 C222 214 232 168 210 138 C224 164 218 198 182 210 Z" fill="url(#fur)"/>
-      <path d="M52 280 C44 208 62 164 120 164 C178 164 196 208 188 280 Z" fill="url(#fur)"/>
-      <path d="M84 278 C79 232 88 196 120 196 C152 196 161 232 156 278 Z" fill="var(--belly)"/>
-      <g class="arm-right">
-        <path d="M168 216 C186 210 200 216 200 232 C200 246 186 250 172 244 Z" fill="url(#fur)"/>
-        <ellipse cx="195" cy="230" rx="12" ry="10" fill="var(--fur-mid)"/>
-      </g>
-      <path d="M72 216 C56 220 48 234 56 246 C64 256 80 252 86 240 Z" fill="url(#fur)"/>
-      <ellipse cx="88" cy="278" rx="18" ry="11" fill="var(--belly)"/>
-      <ellipse cx="152" cy="278" rx="18" ry="11" fill="var(--belly)"/>
-      <path class="ear-l" d="M50 92 C34 42 66 10 106 44 C82 48 62 66 62 100 Z" fill="url(#fur)"/>
-      <path class="ear-r" d="M190 92 C206 42 174 10 134 44 C158 48 178 66 178 100 Z" fill="url(#fur)"/>
-      <path d="M58 80 C52 50 70 32 92 52 C76 56 64 68 66 86 Z" fill="var(--blush)" opacity="0.5"/>
-      <path d="M182 80 C188 50 170 32 148 52 C164 56 176 68 174 86 Z" fill="var(--blush)" opacity="0.5"/>
-      <circle cx="120" cy="110" r="86" fill="url(#fur)"/>
-      <ellipse cx="82" cy="132" rx="15" ry="9.5" fill="var(--blush)" opacity="0.5"/>
-      <ellipse cx="158" cy="132" rx="15" ry="9.5" fill="var(--blush)" opacity="0.5"/>
-      <g id="look"><g class="eyes-blink">
-        <ellipse cx="90" cy="108" rx="12" ry="15" fill="var(--cat-ink)"/>
-        <ellipse cx="150" cy="108" rx="12" ry="15" fill="var(--cat-ink)"/>
-        <circle cx="93.5" cy="101" r="3.4" fill="#fff"/>
-        <circle cx="153.5" cy="101" r="3.4" fill="#fff"/>
-        <circle cx="86" cy="114" r="1.8" fill="#fff" opacity="0.85"/>
-        <circle cx="146" cy="114" r="1.8" fill="#fff" opacity="0.85"/>
-      </g></g>
-      <path d="M120 128 C116 122 124 122 120 128 Z" fill="var(--nose)"/>
-      <path d="M120 128 Q120 137 108 140 M120 128 Q120 137 132 140" stroke="var(--cat-ink)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
-      <g stroke="var(--cat-ink)" stroke-width="1.5" stroke-linecap="round" opacity="0.4">
-        <path d="M58 118 L22 110 M58 126 L20 126 M58 134 L22 142"/>
-        <path d="M182 118 L218 110 M182 126 L220 126 M182 134 L218 142"/>
-      </g>
-    </svg>
-  </div>
-
-  <nav class="things settle" aria-label="Elsewhere">
-    <a class="thing-link" href="projects.html">
-      <svg viewBox="0 0 72 56" aria-hidden="true"><path d="M8 14 25 8l21 7 18-6v36l-18 6-21-7-17 6Z" fill="var(--paper)" stroke="var(--board)" stroke-width="1.5" stroke-linejoin="round"/><path d="M25 8v36M46 15v36" stroke="var(--board)" stroke-width="1.5"/><path d="M13 32c7-9 13 8 22 0s14 7 24-2" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/><circle cx="13" cy="32" r="2.7" fill="var(--brass)"/><circle cx="59" cy="30" r="2.7" fill="var(--brass)"/></svg>
-      <b>Projects</b><small>the work</small>
-    </a>
-    <a class="thing-link" href="writings.html">
-      <svg viewBox="0 0 72 56" aria-hidden="true"><rect x="17" y="6" width="38" height="44" rx="3" fill="var(--paper)" stroke="var(--board)" stroke-width="1.5"/><rect x="17" y="6" width="7" height="44" rx="2.5" fill="var(--accent)"/><path d="M32 18h16M32 26h16M32 34h10" stroke="var(--board)" stroke-width="2.2" stroke-linecap="round"/><path d="M55 12l6 6-17 17-8 2 2-8Z" fill="var(--note-bg)" stroke="var(--brass)" stroke-width="1.5" stroke-linejoin="round"/></svg>
-      <b>Writings</b><small>essays</small>
-    </a>
-    <a class="thing-link" href="https://github.com/someoww" target="_blank" rel="noopener noreferrer">
-      <svg viewBox="0 0 72 56" aria-hidden="true"><rect x="13" y="5" width="46" height="31" rx="3" fill="var(--screen)"/><path d="M22 14h12M26 20h20M22 26h9" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round"/><circle cx="46" cy="26" r="2" fill="#7fd1a8"/><path d="M7 40h58l4 8H3Z" fill="var(--metal)"/><rect x="29" y="40" width="14" height="2.4" rx="1.2" fill="#000" opacity=".2"/></svg>
-      <b>GitHub</b><small>code</small>
-    </a>
-    <a class="thing-link" href="mailto:somiomuktadir@gmail.com">
-      <svg viewBox="0 0 72 56" aria-hidden="true"><rect x="10" y="10" width="52" height="38" rx="4" fill="var(--paper)" stroke="var(--board)" stroke-width="1.5"/><path d="M10 13l26 21 26-21" fill="none" stroke="var(--accent)" stroke-width="2.4" stroke-linejoin="round"/><circle cx="36" cy="34" r="4.5" fill="var(--rug)"/></svg>
-      <b>Email</b><small>say hi</small>
-    </a>
+  <nav class="nav-m" aria-label="Elsewhere, small screens">
+    <a href="projects.html">Projects</a>
+    <a href="writings.html">Writings</a>
+    <a href="https://github.com/someoww" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="mailto:somiomuktadir@gmail.com">Email</a>
   </nav>
 </main>
 
-<button class="skip" id="skip" type="button">Skip intro</button>
-<footer class="hint settle" id="hint"><span class="hint-full">Applied Statistics and Data Science at IASDS, University of Dhaka</span><span class="hint-short" aria-hidden="true">IASDS, University of Dhaka</span></footer>
+<footer class="foot">
+  <p>Applied Statistics and Data Science, IASDS, University of Dhaka</p>
+  <p><a href="mailto:somiomuktadir@gmail.com">somiomuktadir@gmail.com</a><button class="copy" type="button" data-copy="somiomuktadir@gmail.com" aria-label="Copy email address">copy</button><span class="visually-hidden" role="status"></span></p>
+</footer>
 
-<script src="js/home.js"></script>
+<script src="js/site.js"></script>
 </body>
 </html>

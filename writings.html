@@ -1,86 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="color-scheme" content="light dark">
-<meta name="text-scale" content="scale">
-<script src="js/theme.js" blocking="render"></script>
-<link rel="expect" href="#writingsTitle" blocking="render">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#eef0ea">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#e4ece7">
+<script src="js/theme.js"></script>
+<title>Writings | Muktadir Somio</title>
 <meta name="description" content="Writings by Muktadir Somio. Essays will appear here when they are ready.">
 <meta property="og:title" content="Writings | Muktadir Somio">
 <meta property="og:description" content="Essays will appear here when they are ready.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%F0%9F%90%B1</text></svg>">
-<link rel="stylesheet" href="css/tokens.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-132 -176 264 304'%3E%3Cpath d='M-105 -73L-112 -170L-33 -124ZM105 -73L112 -170L33 -124Z' fill='%23e8782a'/%3E%3Ccircle r='128' fill='%23e8782a'/%3E%3Ccircle cx='-50' r='17' fill='%231f1510'/%3E%3Ccircle cx='50' r='17' fill='%231f1510'/%3E%3Cpath d='M-11 30H11L0 44Z' fill='%23c4452f'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/writings.css">
-<title>Writings | Muktadir Somio</title>
+<style>@media (max-width:560px){.brand span{display:none}}</style>
 </head>
 <body>
-<a class="skip-link" href="#main">Skip to content</a>
+<a class="skip" href="#main">Skip to content</a>
 
-<header class="topbar" id="topbar">
-  <div class="topbar-inner">
-    <a class="mark" href="./" aria-label="Muktadir Somio, home">
-      <span class="seal" aria-hidden="true">MS</span>
-      <span class="mark-name">Muktadir Somio</span>
-    </a>
-    <nav class="nav" aria-label="Primary">
-      <a href="./">Home</a>
-      <a href="projects.html">Projects</a>
-      <a href="writings.html" aria-current="page">Writings</a>
-      <a class="ext" href="https://github.com/someoww" target="_blank" rel="noopener noreferrer">GitHub</a>
-      <button class="theme-toggle" id="themeToggle" type="button" role="switch" aria-checked="false" aria-label="Dark mode"><span class="tt-knob" aria-hidden="true"></span></button>
-    </nav>
-  </div>
+<header class="top">
+  <a class="brand" href="index.html" aria-label="Muktadir Somio, home">
+    <svg class="mark cat" viewBox="-132 -176 264 304" aria-hidden="true">
+      <path d="M-105 -73L-112 -170L-33 -124ZM105 -73L112 -170L33 -124Z" fill="var(--ginger)"/>
+      <circle class="head" r="128" fill="var(--ginger)"/>
+      <g fill="var(--cream)"><circle cx="-26" cy="62" r="30"/><circle cx="26" cy="62" r="30"/><circle cy="46" r="24"/></g>
+      <path d="M-11 30H11L0 44Z" fill="var(--nose)"/>
+      <g class="eyes"><g class="lids"><circle cx="-50" r="17" fill="var(--cat-ink)"/><circle cx="50" r="17" fill="var(--cat-ink)"/></g></g>
+    </svg>
+    <span>Muktadir Somio</span>
+  </a>
+  <nav class="nav" aria-label="Primary">
+    <a href="projects.html">Projects</a>
+    <a href="writings.html" aria-current="page">Writings</a>
+    <a href="https://github.com/someoww" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <button class="mode" id="mode" type="button" role="switch" aria-checked="false" aria-label="Dark mode">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg>
+    </button>
+  </nav>
 </header>
 
 <main id="main" tabindex="-1">
+  <section class="w" aria-labelledby="writingsTitle">
+    <div>
+      <h1 id="writingsTitle">Nothing to read yet.</h1>
+      <p class="lede">I would rather publish one careful essay than keep a feed. When there is something worth your time, it will appear here.</p>
+      <p class="note">The first piece is still being thought through. In the meantime, the <a href="projects.html">projects page</a> is where the work lives.</p>
+    </div>
 
-  <section class="w-hero wrap" aria-labelledby="writingsTitle">
-    <p class="kicker">Writings</p>
-    <h1 id="writingsTitle">Nothing to read <em>yet.</em></h1>
-    <p class="lede">I would rather publish one careful essay than keep a feed. When there is something worth your time, it will appear here.</p>
+    <div class="bed">
+      <svg class="sleeper" viewBox="0 0 520 400" role="group" aria-label="A ginger cat asleep on a round rug">
+        <ellipse class="rug" cx="260" cy="300" rx="236" ry="78"/>
+        <ellipse class="rug-ring" cx="260" cy="300" rx="212" ry="64"/>
+        <path class="mat" d="M70 330 L84 352 L56 352 Z"/>
+        <path class="mat" d="M452 336 L466 308 L480 336 Z" transform="translate(-6 8)"/>
+
+        <g class="breath">
+          <path d="M92 296C86 206 150 176 262 176C376 176 440 214 430 296Z" fill="var(--ginger)"/>
+          <path d="M150 288C160 236 192 214 224 216C196 238 190 268 196 296Z" fill="var(--ginger-deep)" opacity=".55"/>
+          <path d="M236 206C266 200 300 204 330 214L322 238C296 228 268 226 244 232Z" fill="var(--ginger-deep)" opacity=".55"/>
+          <path d="M350 226C380 238 398 260 400 296H372C372 268 364 248 346 238Z" fill="var(--ginger-deep)" opacity=".55"/>
+          <path d="M426 296C486 296 500 246 468 214" fill="none" stroke="var(--ginger)" stroke-width="30" stroke-linecap="round"/>
+          <path d="M470 232C482 250 478 270 462 282" fill="none" stroke="var(--ginger-deep)" stroke-width="30" stroke-linecap="round" opacity=".55" stroke-dasharray="1 38"/>
+        </g>
+
+        <svg class="cat sleep" id="sleepCat" role="button" tabindex="0" aria-label="Wake the cat for a moment" x="40" y="125" width="270" height="203" viewBox="-170 -170 340 255">
+          <g class="ear ear-l"><path d="M-105 -73L-112 -170L-33 -124Z" fill="var(--ginger)"/><path d="M-94 -98L-98 -146L-58 -123Z" fill="var(--cream)"/></g>
+          <g class="ear ear-r"><path d="M105 -73L112 -170L33 -124Z" fill="var(--ginger)"/><path d="M94 -98L98 -146L58 -123Z" fill="var(--cream)"/></g>
+          <circle class="head" r="128" fill="var(--ginger)"/>
+          <g fill="var(--ginger-deep)"><path d="M-10 -122H10L0 -72Z"/><path d="M-46 -113L-28 -120L-34 -78Z"/><path d="M46 -113L28 -120L34 -78Z"/></g>
+          <g fill="var(--cream)"><circle cx="-26" cy="62" r="30"/><circle cx="26" cy="62" r="30"/><circle cy="46" r="24"/></g>
+          <path d="M-11 30H11L0 44Z" fill="var(--nose)"/>
+          <path d="M0 44V54M0 54Q-14 68 -30 58M0 54Q14 68 30 58" fill="none" stroke="var(--cat-ink)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <g class="eyes">
+            <g class="eyes-open lids">
+              <circle cx="-50" r="17" fill="var(--cat-ink)"/><circle cx="50" r="17" fill="var(--cat-ink)"/>
+              <circle cx="-45" cy="-6" r="5" fill="var(--cream)"/><circle cx="55" cy="-6" r="5" fill="var(--cream)"/>
+            </g>
+            <g class="eyes-happy" fill="none" stroke="var(--cat-ink)" stroke-width="6" stroke-linecap="round">
+              <path d="M-68 -4Q-50 14 -32 -4"/><path d="M32 -4Q50 14 68 -4"/>
+            </g>
+          </g>
+        </svg>
+
+        <text class="zz" x="330" y="150" aria-hidden="true">z</text>
+        <text class="zz b" x="356" y="116" aria-hidden="true">z</text>
+        <text class="zz c" x="388" y="76" aria-hidden="true">z</text>
+      </svg>
+      <p class="hint">Tap the cat. It will not stay awake.</p>
+    </div>
   </section>
 
-  <div class="w-grid wrap">
-    <article class="index-panel" aria-label="Empty writing index">
-      <div class="index-head">
-        <span><b>MS</b> / essays</span>
-        <span>No. 00</span>
-      </div>
-      <div class="index-body">
-        <p class="statement">The first piece is still being thought through.</p>
-        <p class="note">In the meantime, the <a href="projects.html">projects page</a> is where the work lives.</p>
-      </div>
-      <div class="index-foot">
-        <span>Status: unpublished</span>
-        <span>Entries: 0</span>
-        <span>Last updated: never</span>
-      </div>
-    </article>
-
-    <aside class="w-aside" aria-label="Elsewhere">
-      <h2>Elsewhere</h2>
-      <nav class="link-list" aria-label="Other pages and contact">
-        <a href="projects.html">See the projects</a>
-        <a href="https://github.com/someoww" target="_blank" rel="noopener noreferrer">Read the code</a>
-        <a href="mailto:somiomuktadir@gmail.com">Tell me what to read</a>
-      </nav>
-      <p class="aside-note"><b>Why leave it blank?</b> Writing takes longer than building, at least for me. One good essay is worth more than a feed.</p>
-    </aside>
-  </div>
-
+  <nav class="aside" aria-label="Elsewhere">
+    <a href="projects.html">See the projects<small>supply_route, with a causal simulator.</small></a>
+    <a href="https://github.com/someoww" target="_blank" rel="noopener noreferrer">Read the code<small>Everything is on GitHub.</small></a>
+    <a href="mailto:somiomuktadir@gmail.com">Tell me what to read<small>Suggestions are welcome.</small></a>
+  </nav>
 </main>
 
 <footer class="foot">
-  <div class="foot-inner">
-    <p>Dhaka, Bangladesh <time class="mono" id="clock">--:--</time></p>
-    <p>Built by hand. No images, no trackers, no fonts fetched.</p>
-    <p class="foot-contact"><a id="emailLink" href="mailto:somiomuktadir@gmail.com">somiomuktadir@gmail.com</a><button class="copy" type="button" command="--copy" commandfor="emailLink" data-copy="somiomuktadir@gmail.com" aria-label="Copy email address">copy</button><span class="visually-hidden" role="status"></span></p>
-  </div>
+  <p>Applied Statistics and Data Science, IASDS, University of Dhaka</p>
+  <p><a href="mailto:somiomuktadir@gmail.com">somiomuktadir@gmail.com</a><button class="copy" type="button" data-copy="somiomuktadir@gmail.com" aria-label="Copy email address">copy</button><span class="visually-hidden" role="status"></span></p>
 </footer>
 
 <script src="js/site.js"></script>
