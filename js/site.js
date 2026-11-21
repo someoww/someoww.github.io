@@ -60,7 +60,7 @@
       frame = requestAnimationFrame(function () {
         frame = 0;
         cats.forEach(function (cat, i) {
-          if (!heads[i] || (cat.classList.contains('sleep') && !cat.classList.contains('awake'))) return;
+          if (!heads[i]) return;
           var r = heads[i].getBoundingClientRect();
           var dx = e.clientX - (r.left + r.width / 2);
           var dy = e.clientY - (r.top + r.height / 2);
@@ -75,13 +75,11 @@
     });
   }
 
-  /* Petting: ears twitch, eyes squeeze shut. A sleeping cat wakes up for a moment. */
+  /* Petting: ears twitch, eyes squeeze shut. */
   function pet(cat) {
-    var sleeping = cat.classList.contains('sleep');
-    var cls = sleeping ? 'awake' : 'happy';
-    cat.classList.add(cls);
+    cat.classList.add('happy');
     clearTimeout(cat._t);
-    cat._t = setTimeout(function () { cat.classList.remove(cls); }, sleeping ? 2400 : 1500);
+    cat._t = setTimeout(function () { cat.classList.remove('happy'); }, 1500);
     cat.classList.remove('twitch');
     void cat.getBoundingClientRect();
     cat.classList.add('twitch');
@@ -90,8 +88,6 @@
   }
 
   cats.forEach(function (cat) {
-    /* The little header cat is decoration inside a link; leave it alone. */
-    if (cat.getAttribute('aria-hidden') === 'true') return;
     cat.addEventListener('click', function () { pet(cat); });
     cat.addEventListener('keydown', function (event) {
       if (event.key === 'Enter') {
@@ -132,7 +128,6 @@
       if (!status || status.getAttribute('role') !== 'status') status = null;
 
       clearTimeout(timer);
-      button.classList.toggle('done', ok);
       button.textContent = ok ? 'copied' : 'failed';
       if (ok) {
         button.setAttribute('data-copied', '');
@@ -145,7 +140,6 @@
 
       timer = setTimeout(function () {
         button.textContent = label;
-        button.classList.remove('done');
         button.removeAttribute('data-copied');
         button.removeAttribute('data-failed');
         if (status) status.textContent = '';

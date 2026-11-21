@@ -1,13 +1,14 @@
-/* Home: the cat is the page. Its whiskers are the navigation. */
+/* Home: the cat is the page. */
 
 .home .top{justify-content:flex-end}
+.home .nav{gap:clamp(8px,1.6vw,14px)}
 .hero{max-width:1160px;margin:0 auto;padding:0 var(--gut);display:flex;flex-direction:column}
 
 /* The stage is sized from the cat's width so every layer stays in proportion.
    The whisker layer is 2.262 cat-widths wide; on a phone it simply runs off the edges. */
 .stage{
   --cat-w:clamp(210px,min(34vw,41vh),440px);
-  order:1;position:relative;height:calc(var(--cat-w) * 1.4027);overflow-x:clip;
+  position:relative;height:calc(var(--cat-w) * 1.4027);overflow-x:clip;
 }
 .whisk{
   position:absolute;left:50%;top:0;translate:-50% 0;
@@ -16,7 +17,10 @@
 .whisk > svg{position:absolute;display:block}
 .halo,.wsk{inset:0;width:100%;height:100%;overflow:hidden}
 .wsk{pointer-events:none}
-.whisk .cat{left:27.9%;top:18.2%;width:44.2%;height:auto;view-transition-name:cat}
+.whisk .cat{
+  left:27.9%;top:18.2%;width:44.2%;height:auto;
+  filter:drop-shadow(0 14px 22px rgb(0 0 0 / .10));
+}
 
 .halo .disc{fill:var(--disc)}
 .halo .ring{fill:none;stroke:var(--line-soft);stroke-width:1.5}
@@ -24,33 +28,9 @@
 .halo .bit-solid{fill:var(--ginger);opacity:.55}
 
 /* whiskers */
-.wsk .wk{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;transition:stroke .2s,stroke-width .2s}
-.wsk .wd circle{
-  fill:var(--ginger);transform-box:fill-box;transform-origin:center;scale:1;
-  transition:scale .25s cubic-bezier(.34,1.56,.64,1);
-}
-.whisk:has(a[data-w="projects"]:is(:hover,:focus-visible)) path[data-w="projects"],
-.whisk:has(a[data-w="writings"]:is(:hover,:focus-visible)) path[data-w="writings"],
-.whisk:has(a[data-w="github"]:is(:hover,:focus-visible)) path[data-w="github"],
-.whisk:has(a[data-w="email"]:is(:hover,:focus-visible)) path[data-w="email"]{stroke:var(--ginger);stroke-width:3.6}
-.whisk:has(a[data-w="projects"]:is(:hover,:focus-visible)) circle[data-w="projects"],
-.whisk:has(a[data-w="writings"]:is(:hover,:focus-visible)) circle[data-w="writings"],
-.whisk:has(a[data-w="github"]:is(:hover,:focus-visible)) circle[data-w="github"],
-.whisk:has(a[data-w="email"]:is(:hover,:focus-visible)) circle[data-w="email"]{scale:1.7}
+.wsk .wk{fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;opacity:.85}
 
-/* labels sit at the whisker tips */
-.orbit{position:absolute;inset:0}
-.orbit a{
-  position:absolute;translate:0 -50%;padding:10px 6px;white-space:nowrap;text-decoration:none;
-  font:700 clamp(.95rem,1.3vw,1.25rem)/1 var(--sans);letter-spacing:-.01em;transition:color .2s;
-}
-.orbit a:hover,.orbit a:focus-visible{color:var(--accent)}
-.o-projects{top:53.2%;right:84.8%}
-.o-writings{top:84.2%;right:82.6%}
-.o-github{top:53.2%;left:84.8%}
-.o-email{top:84.2%;left:82.6%}
-
-/* one orchestrated moment: the whiskers grow out of the face, then the labels arrive */
+/* one orchestrated moment: the whiskers grow out of the face */
 @media (prefers-reduced-motion:no-preference){
   .wsk .wk{stroke-dasharray:1 1.01;stroke-dashoffset:1;animation:grow 1s cubic-bezier(.22,1,.36,1) .25s forwards}
   .wsk .wk:nth-child(2){animation-delay:.35s}
@@ -58,12 +38,8 @@
   .wsk .wk:nth-child(4){animation-delay:.3s}
   .wsk .wk:nth-child(5){animation-delay:.4s}
   .wsk .wk:nth-child(6){animation-delay:.5s}
-  .wsk .wd circle{animation:pop .45s cubic-bezier(.34,1.56,.64,1) 1s backwards}
-  .orbit a{animation:fade .5s ease 1.05s backwards}
 }
 @keyframes grow{to{stroke-dashoffset:0}}
-@keyframes pop{from{scale:0}}
-@keyframes fade{from{opacity:0}}
 
 /* the name and a few lines */
 .intro{
@@ -82,23 +58,7 @@
 .intro-text p + p{margin-top:14px}
 .sign{color:var(--ink);font-style:italic}
 
-.nav-m{display:none;order:2}
-
 @media (max-width:760px){
   .intro{grid-template-columns:1fr;gap:22px;align-items:start;padding-top:4px}
   .stage{--cat-w:clamp(190px,min(58vw,38vh),340px)}
-  .orbit{display:none}
-  .nav-m{
-    display:flex;flex-wrap:wrap;justify-content:center;gap:10px 20px;
-    margin-top:26px;padding-top:20px;border-top:1px solid var(--line-soft);
-    font:600 .9rem/1 var(--sans);
-  }
-  .nav-m a{color:var(--muted);text-decoration:none}
-  .nav-m a:hover,.nav-m a:focus-visible{color:var(--accent)}
-}
-
-@media (prefers-reduced-motion:reduce){
-  .wsk .wk{stroke-dashoffset:0}
-  .wsk .wk,.wsk .wd circle,.orbit a{transition:none}
-  .wsk .wd circle,.orbit a{animation:none}
 }

@@ -10,15 +10,9 @@
    Everything else on the site is built from those three.
    Type: a geometric sans for display, a book serif for reading. System fonts only. */
 
-@view-transition{navigation:auto}
-@media (prefers-reduced-motion:reduce){@view-transition{navigation:none}}
-::view-transition-group(cat){animation-duration:.6s;animation-timing-function:cubic-bezier(.22,1,.36,1)}
-::view-transition-old(root),::view-transition-new(root){animation-duration:.2s}
-
 :root{
   color-scheme:light dark;
   --bg:light-dark(#e4ece7,#0e1815);
-  --panel:light-dark(#f0f5f1,#15221e);
   --disc:light-dark(#d2dfd8,#172a25);
   --ink:light-dark(#13241f,#e7efe9);
   --muted:light-dark(#4b5f58,#a2b5ad);
@@ -32,7 +26,6 @@
   --nose:light-dark(#c4452f,#e0644e);
   --cat-ink:#1f1510;
   --ok:light-dark(#2d7a67,#86cdb8);
-  --warn:light-dark(#a8730f,#e3b04a);
   --crit:light-dark(#c4452f,#ff8a70);
   --solid-bg:light-dark(#13241f,#e7efe9);
   --solid-fg:light-dark(#e4ece7,#0e1815);
@@ -40,7 +33,6 @@
   --gut:clamp(20px,4vw,40px);
   --sans:'Futura','Avenir Next','Century Gothic','Trebuchet MS',ui-sans-serif,system-ui,sans-serif;
   --serif:'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
-  --mono:ui-monospace,'SF Mono','Cascadia Mono','Roboto Mono',Menlo,Consolas,monospace;
   accent-color:var(--accent);
 }
 :root[data-theme="light"]{color-scheme:light}
@@ -77,22 +69,20 @@ img,svg{max-width:100%}
   max-width:1160px;margin:0 auto;padding:18px var(--gut);
   display:flex;align-items:center;justify-content:space-between;gap:20px;
 }
-.brand{
-  display:inline-flex;align-items:center;gap:10px;text-decoration:none;
-  font:700 1rem/1 var(--sans);letter-spacing:-.02em;color:var(--ink);
-}
-.brand .mark{display:block;width:38px;height:auto;flex:0 0 auto}
-.brand:hover span,.brand:focus-visible span{color:var(--accent)}
 .nav{
   display:flex;align-items:center;gap:clamp(10px,2vw,22px);
   font:600 .9rem/1 var(--sans);
 }
 .nav a{color:var(--muted);text-decoration:none;transition:color .2s}
 .nav a:hover,.nav a:focus-visible{color:var(--ink)}
-.nav a[aria-current="page"]{color:var(--ink)}
-.nav a[aria-current="page"]::after{
-  content:'';display:block;height:2px;margin-top:5px;background:var(--ginger);
+.nav .icon{
+  flex:0 0 auto;display:grid;place-items:center;width:38px;height:38px;
+  border:1px solid var(--line);border-radius:50%;color:var(--ink);
+  text-decoration:none;transition:border-color .2s,color .2s,transform .2s;
 }
+.nav .icon svg{display:block;width:18px;height:18px}
+.nav .icon:hover,.nav .icon:focus-visible{border-color:var(--accent);color:var(--accent)}
+.nav .icon:active{transform:scale(.94)}
 .mode{
   flex:0 0 auto;display:grid;place-items:center;width:38px;height:38px;padding:0;
   border:1px solid var(--line);border-radius:50%;background:transparent;
@@ -103,18 +93,6 @@ img,svg{max-width:100%}
 .mode:active{transform:scale(.94)}
 :root[data-theme="dark"] .mode svg{transform:rotate(180deg)}
 
-/* ---------- buttons ---------- */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:12px 20px;border:1px solid var(--line);border-radius:2px;
-  text-decoration:none;font:600 .9rem/1 var(--sans);cursor:pointer;
-  transition:background .2s,border-color .2s,color .2s;
-}
-.btn-solid{background:var(--solid-bg);border-color:var(--solid-bg);color:var(--solid-fg)}
-.btn-solid:hover,.btn-solid:focus-visible{background:var(--ginger);border-color:var(--ginger);color:var(--cat-ink)}
-.btn-ghost{background:transparent;color:var(--ink)}
-.btn-ghost:hover,.btn-ghost:focus-visible{border-color:var(--accent);color:var(--accent)}
-
 /* ---------- the cat ---------- */
 .cat{overflow:visible}
 .cat[role="button"]{cursor:pointer;touch-action:manipulation}
@@ -123,11 +101,15 @@ img,svg{max-width:100%}
   transition:transform .12s linear;
 }
 .cat .eyes-open,.cat .eyes-happy{transition:opacity .18s ease}
+.cat .eyes-open{transform-box:fill-box;transform-origin:center;animation:cat-blink 6.5s infinite}
+.cat.happy .eyes-open{animation:none}
 .cat .eyes-happy{opacity:0}
 .cat.happy .eyes-open{opacity:0}
 .cat.happy .eyes-happy{opacity:1}
-.cat.sleep:not(.awake) .eyes-open{opacity:0}
-.cat.sleep:not(.awake) .eyes-happy{opacity:1}
+@keyframes cat-blink{
+  0%,94%,100%{transform:scaleY(1)}
+  96%,98%{transform:scaleY(.08)}
+}
 .cat .ear{transform-box:fill-box;transform-origin:50% 100%;transition:transform .25s ease}
 .cat.twitch .ear-l{transform:rotate(-7deg)}
 .cat.twitch .ear-r{transform:rotate(7deg)}
@@ -153,13 +135,14 @@ img,svg{max-width:100%}
 
 @media (max-width:620px){
   .top{padding:14px var(--gut);gap:12px}
-  .brand .mark{width:32px}
-  .nav{gap:10px;font-size:.82rem}
-  .mode{width:34px;height:34px}
+  .nav{gap:8px;font-size:.82rem}
+  .nav .icon,.mode{width:34px;height:34px}
   .foot{margin-top:56px}
 }
 
 @media (prefers-reduced-motion:reduce){
   .cat .eyes,.cat .ear,.cat .eyes-open,.cat .eyes-happy{transition:none}
-  .btn,.mode,.nav a{transition:none}
+  .cat .eyes-open{animation:none}
+  .mode,.nav a,.nav .icon{transition:none}
+  .nav .icon:active{transform:none}
 }
